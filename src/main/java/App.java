@@ -1,8 +1,9 @@
-package org.example;
+
+import menu.MainMenu;
 
 public class App {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        new MainMenu().start();
     }
 }
