@@ -1,9 +1,6 @@
 package org.novak.java.service;
 
-import org.novak.java.customException.NoReservationsException;
-import org.novak.java.customException.NoWorkspacesException;
-import org.novak.java.customException.ReservationNotFoundException;
-import org.novak.java.customException.WorkspaceNotFoundException;
+import org.novak.java.customException.ResourceNotFoundException;
 import org.novak.java.model.reservation.Reservation;
 import org.novak.java.model.reservation.ReservationInMemoryRepositoryImpl;
 import org.novak.java.model.reservation.ReservationRepository;
@@ -22,7 +19,7 @@ public class ReservationService {
     public void makeReservation(int workspaceId) {
         Workspace workspace = workspaceRepository.getWorkspaceById(workspaceId);
         if (workspace == null) {
-            throw new WorkspaceNotFoundException(workspaceId);
+            throw new ResourceNotFoundException("Workspace with id: " + workspaceId + " was not found!");
         }
 
         int uniqueReservationId = generateUniqueReservationId();
@@ -37,7 +34,7 @@ public class ReservationService {
     public void cancelReservation(int reservationId) {
         Reservation reservation = reservationRepository.getReservationByReservationId(reservationId);
         if (reservation == null) {
-            throw new ReservationNotFoundException(reservationId);
+            throw new ResourceNotFoundException("Reservation with id: " + reservationId + " was not found!");
         }
 
         reservationRepository.deleteReservationByReservationId(reservationId);
@@ -47,7 +44,7 @@ public class ReservationService {
     public List<Workspace> listAvailableWorkspaces() {
         List<Workspace> availableWorkspaces = workspaceRepository.getAvailableWorkspaces();
         if (availableWorkspaces.isEmpty()) {
-            throw new NoWorkspacesException();
+            throw new ResourceNotFoundException("No available workspaces to reserve!");
         }
 
         return availableWorkspaces;
@@ -56,7 +53,7 @@ public class ReservationService {
     public List<Reservation> listAllReservations() {
         List<Reservation> allReservations = reservationRepository.getAllReservations();
         if (allReservations.isEmpty()) {
-            throw new NoReservationsException();
+            throw new ResourceNotFoundException("No reservations!");
         }
 
         return allReservations;

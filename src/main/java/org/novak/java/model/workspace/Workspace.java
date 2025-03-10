@@ -1,8 +1,9 @@
 package org.novak.java.model.workspace;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Workspace {
+public class Workspace implements Serializable {
 
     private int id;
     private double price;

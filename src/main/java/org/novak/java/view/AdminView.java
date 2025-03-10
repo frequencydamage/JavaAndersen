@@ -1,9 +1,7 @@
 package org.novak.java.view;
 
 import org.novak.java.controller.AdminController;
-import org.novak.java.customException.NoReservationsException;
-import org.novak.java.customException.NoWorkspacesException;
-import org.novak.java.customException.WorkspaceNotFoundException;
+import org.novak.java.customException.ResourceNotFoundException;
 import org.novak.java.model.workspace.WorkspaceType;
 
 import java.math.BigDecimal;
@@ -99,7 +97,7 @@ class AdminView extends View {
     private void removeWorkspace() {
         try {
             System.out.println("Select workspace to remove: " + adminController.listWorkspaces());
-        } catch (NoWorkspacesException ex) {
+        } catch (ResourceNotFoundException ex) {
             System.out.println(ex.getMessage());
             return;
         }
@@ -117,7 +115,7 @@ class AdminView extends View {
                 adminController.removeWorkspace(workspaceId);
                 System.out.println("Workspace with ID: " + workspaceId + " was successfully removed.");
                 break;
-            } catch (WorkspaceNotFoundException ex) {
+            } catch (ResourceNotFoundException ex) {
                 System.out.println(ex.getMessage());
             }
         }
@@ -126,7 +124,7 @@ class AdminView extends View {
     private void listWorkspaces() {
         try {
             System.out.println("List of workspaces :" + adminController.listWorkspaces());
-        } catch (NoWorkspacesException ex) {
+        } catch (ResourceNotFoundException ex) {
             System.out.println(ex.getMessage());
         }
     }
@@ -134,7 +132,7 @@ class AdminView extends View {
     private void listAllReservations() {
         try {
             System.out.println("List of all reservations: " + adminController.listAllReservations());
-        } catch (NoReservationsException ex) {
+        } catch (ResourceNotFoundException ex) {
             System.out.println(ex.getMessage());
         }
     }

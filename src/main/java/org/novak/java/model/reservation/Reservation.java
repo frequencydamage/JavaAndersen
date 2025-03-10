@@ -2,9 +2,10 @@ package org.novak.java.model.reservation;
 
 import org.novak.java.model.workspace.WorkspaceType;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Reservation {
+public class Reservation implements Serializable {
 
     private int worksSpaceId;
     private WorkspaceType workspaceType;

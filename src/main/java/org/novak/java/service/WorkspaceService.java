@@ -1,6 +1,6 @@
 package org.novak.java.service;
-import org.novak.java.customException.NoWorkspacesException;
-import org.novak.java.customException.WorkspaceNotFoundException;
+
+import org.novak.java.customException.ResourceNotFoundException;
 import org.novak.java.model.reservation.ReservationInMemoryRepositoryImpl;
 import org.novak.java.model.reservation.ReservationRepository;
 import org.novak.java.model.workspace.Workspace;
@@ -20,17 +20,17 @@ public class WorkspaceService {
         workspaceRepository.createWorkspace(new Workspace(generateUniqueWorkspaceId(), price, workspaceType, true));
     }
 
-    public List<Workspace> getAllWorkspaces() {
+    public List<Workspace> listAllWorkspaces() {
         List<Workspace> allWorkspaces = workspaceRepository.getAllWorkspaces();
         if (allWorkspaces.isEmpty()) {
-            throw new NoWorkspacesException();
+            throw new ResourceNotFoundException("No workspaces!");
         }
         return allWorkspaces;
     }
 
     public void removeWorkspace(int workspaceId) {
         if (workspaceRepository.getWorkspaceById(workspaceId) == null) {
-            throw new WorkspaceNotFoundException(workspaceId);
+            throw new ResourceNotFoundException("Workspace with id: " + workspaceId + " was not found!");
         }
 
         workspaceRepository.deleteWorkspaceByWorkspaceId(workspaceId);

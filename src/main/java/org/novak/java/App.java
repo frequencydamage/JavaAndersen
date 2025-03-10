@@ -1,13 +1,10 @@
 package org.novak.java;
 
-/**
- * Hello world!
- *
- */
-public class App 
-{
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
+import org.novak.java.view.MainView;
+
+public class App {
+
+    public static void main(String[] args) {
+        new MainView().start();
     }
 }

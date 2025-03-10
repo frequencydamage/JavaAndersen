@@ -1,10 +1,7 @@
 package org.novak.java.view;
 
 import org.novak.java.controller.CustomerController;
-import org.novak.java.customException.NoReservationsException;
-import org.novak.java.customException.NoWorkspacesException;
-import org.novak.java.customException.ReservationNotFoundException;
-import org.novak.java.customException.WorkspaceNotFoundException;
+import org.novak.java.customException.ResourceNotFoundException;
 
 class CustomerView extends View {
 
@@ -51,7 +48,7 @@ class CustomerView extends View {
         try {
             System.out.println(
                     "List of available workspaces to reserve :" + customerController.listAvailableWorkspaces());
-        } catch (NoWorkspacesException ex) {
+        } catch (ResourceNotFoundException ex) {
             System.out.println(ex.getMessage());
             return;
         }
@@ -69,7 +66,7 @@ class CustomerView extends View {
         try {
             customerController.makeReservation(workspaceId);
             System.out.println("Reservation was created successfully!");
-        } catch (WorkspaceNotFoundException ex) {
+        } catch (ResourceNotFoundException ex) {
             System.out.println(ex.getMessage());
         }
     }
@@ -77,7 +74,7 @@ class CustomerView extends View {
     private void cancelReservation() {
         try {
             System.out.println("List of reservations to cancel: " + customerController.listMyReservations());
-        } catch (NoReservationsException ex) {
+        } catch (ResourceNotFoundException ex) {
             System.out.println(ex.getMessage());
             return;
         }
@@ -95,7 +92,7 @@ class CustomerView extends View {
         try {
             customerController.cancelReservation(reservationId);
             System.out.println("Reservation with id: " + reservationId + " was successfully deleted!");
-        } catch (ReservationNotFoundException ex) {
+        } catch (ResourceNotFoundException ex) {
             System.out.println(ex.getMessage());
         }
     }
@@ -103,7 +100,7 @@ class CustomerView extends View {
     private void listAvailableWorkspaces() {
         try {
             System.out.println("List of available workspaces: " + customerController.listAvailableWorkspaces());
-        } catch (NoWorkspacesException ex) {
+        } catch (ResourceNotFoundException ex) {
             System.out.println(ex.getMessage());
         }
     }
@@ -111,7 +108,7 @@ class CustomerView extends View {
     private void listMyReservations() {
         try {
             System.out.println("List of reservations :" + customerController.listMyReservations());
-        } catch (NoReservationsException ex) {
+        } catch (ResourceNotFoundException ex) {
             System.out.println(ex.getMessage());
         }
     }

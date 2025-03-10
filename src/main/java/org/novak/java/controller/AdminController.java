@@ -21,7 +21,7 @@ public class AdminController {
     }
 
     public List<Workspace> listWorkspaces() {
-        return workspaceService.getAllWorkspaces();
+        return workspaceService.listAllWorkspaces();
     }
 
     public List<Reservation> listAllReservations() {
