@@ -17,7 +17,8 @@ public class WorkspaceService {
     private ReservationRepository reservationRepository = ReservationInMemoryRepositoryImpl.getInstance();
 
     public void addWorkspace(double price, WorkspaceType workspaceType) {
-        workspaceRepository.createWorkspace(new Workspace(generateUniqueWorkspaceId(), price, workspaceType, true));
+        workspaceRepository.createWorkspace(new Workspace(
+                generateUniqueWorkspaceId(), price, workspaceType, true));
     }
 
     public List<Workspace> listAllWorkspaces() {
@@ -29,9 +30,9 @@ public class WorkspaceService {
     }
 
     public void removeWorkspace(int workspaceId) {
-        if (workspaceRepository.getWorkspaceById(workspaceId) == null) {
-            throw new ResourceNotFoundException("Workspace with id: " + workspaceId + " was not found!");
-        }
+        Optional.ofNullable(workspaceRepository.getWorkspaceById(workspaceId))
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Workspace with id: " + workspaceId + " was not found!"));
 
         workspaceRepository.deleteWorkspaceByWorkspaceId(workspaceId);
         reservationRepository.deleteReservationByWorkspaceId(workspaceId);
@@ -40,13 +41,11 @@ public class WorkspaceService {
     private int generateUniqueWorkspaceId() {
         int workSpaceId;
         while (true) {
-            int tempId = random.nextInt(1_000);
+            workSpaceId = random.nextInt(1_000);
 
-            if (workspaceRepository.getAllWorkspaces().stream().noneMatch(w -> w.getId() == tempId)) {
-                workSpaceId = tempId;
-                break;
+            if (workspaceRepository.getWorkspaceById(workSpaceId) == null) {
+                return workSpaceId;
             }
         }
-        return workSpaceId;
     }
 }

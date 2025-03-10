@@ -1,6 +1,6 @@
 package org.novak.java.model.reservation;
 
-import org.novak.java.helper.DataLoaderHelper;
+import org.novak.java.util.DataLoaderUtil;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -50,7 +50,7 @@ public class ReservationInMemoryRepositoryImpl implements ReservationRepository,
 
     public static ReservationRepository getInstance() {
         if (instance == null) {
-            instance = DataLoaderHelper.loadData(FILE_NAME);
+            instance = DataLoaderUtil.loadData(FILE_NAME);
 
             if (instance == null) {
                 instance = new ReservationInMemoryRepositoryImpl();
@@ -61,6 +61,6 @@ public class ReservationInMemoryRepositoryImpl implements ReservationRepository,
     }
 
     private void saveData() {
-        DataLoaderHelper.saveData(this, FILE_NAME);
+        DataLoaderUtil.saveData(this, FILE_NAME);
     }
 }

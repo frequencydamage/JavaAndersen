@@ -17,10 +17,10 @@ public class ReservationService {
     private WorkspaceRepository workspaceRepository = WorkspaceInMemoryRepositoryImpl.getInstance();
 
     public void makeReservation(int workspaceId) {
-        Workspace workspace = workspaceRepository.getWorkspaceById(workspaceId);
-        if (workspace == null) {
-            throw new ResourceNotFoundException("Workspace with id: " + workspaceId + " was not found!");
-        }
+        Workspace workspace = Optional.ofNullable(
+                        workspaceRepository.getWorkspaceById(workspaceId))
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Workspace with id: " + workspaceId + " was not found!"));
 
         int uniqueReservationId = generateUniqueReservationId();
         reservationRepository.createReservation(
@@ -32,10 +32,10 @@ public class ReservationService {
     }
 
     public void cancelReservation(int reservationId) {
-        Reservation reservation = reservationRepository.getReservationByReservationId(reservationId);
-        if (reservation == null) {
-            throw new ResourceNotFoundException("Reservation with id: " + reservationId + " was not found!");
-        }
+        Reservation reservation = Optional.ofNullable(
+                        reservationRepository.getReservationByReservationId(reservationId))
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Reservation with id: " + reservationId + " was not found!"));
 
         reservationRepository.deleteReservationByReservationId(reservationId);
         workspaceRepository.updateWorkspaceAvailabilityById(reservation.getWorksSpaceId(), true);
@@ -62,13 +62,11 @@ public class ReservationService {
     private int generateUniqueReservationId() {
         int reservationId;
         while (true) {
-            int tempId = random.nextInt(1_000);
+            reservationId = random.nextInt(1_000);
 
-            if (listAvailableWorkspaces().stream().noneMatch(w -> w.getId() == tempId)) {
-                reservationId = tempId;
-                break;
+            if (reservationRepository.getReservationByReservationId(reservationId) == null) {
+                return reservationId;
             }
         }
-        return reservationId;
     }
 }
