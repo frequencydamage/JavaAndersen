@@ -2,10 +2,13 @@ package org.novak.java.view;
 
 import org.novak.java.controller.AdminController;
 import org.novak.java.customException.ResourceNotFoundException;
+import org.novak.java.model.reservation.Reservation;
+import org.novak.java.model.workspace.Workspace;
 import org.novak.java.model.workspace.WorkspaceType;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 
 class AdminView extends View {
 
@@ -95,12 +98,13 @@ class AdminView extends View {
     }
 
     private void removeWorkspace() {
-        try {
-            System.out.println("Select workspace to remove: " + adminController.listWorkspaces());
-        } catch (ResourceNotFoundException ex) {
-            System.out.println(ex.getMessage());
+        List<Workspace> workspaces = adminController.listWorkspaces();
+        if (workspaces.isEmpty()) {
+            System.out.println("No workspaces!");
             return;
         }
+
+        System.out.println("List of workspaces: " + workspaces);
 
         int workspaceId;
         while (true) {
@@ -117,23 +121,26 @@ class AdminView extends View {
                 break;
             } catch (ResourceNotFoundException ex) {
                 System.out.println(ex.getMessage());
+                return;
             }
         }
     }
 
     private void listWorkspaces() {
-        try {
-            System.out.println("List of workspaces :" + adminController.listWorkspaces());
-        } catch (ResourceNotFoundException ex) {
-            System.out.println(ex.getMessage());
+        List<Workspace> workspaces = adminController.listWorkspaces();
+        if (workspaces.isEmpty()) {
+            System.out.println("No workspaces to list!");
+            return;
         }
+        System.out.println("List of workspaces: " + workspaces);
     }
 
     private void listAllReservations() {
-        try {
-            System.out.println("List of all reservations: " + adminController.listAllReservations());
-        } catch (ResourceNotFoundException ex) {
-            System.out.println(ex.getMessage());
+        List<Reservation> allReservations = adminController.listAllReservations();
+        if (allReservations.isEmpty()) {
+            System.out.println("No reservations to list!");
+            return;
         }
+        System.out.println("List of reservations: " + allReservations);
     }
 }

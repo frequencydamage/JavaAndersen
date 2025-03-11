@@ -2,6 +2,10 @@ package org.novak.java.view;
 
 import org.novak.java.controller.CustomerController;
 import org.novak.java.customException.ResourceNotFoundException;
+import org.novak.java.model.reservation.Reservation;
+import org.novak.java.model.workspace.Workspace;
+
+import java.util.List;
 
 class CustomerView extends View {
 
@@ -45,13 +49,12 @@ class CustomerView extends View {
     }
 
     private void makeReservation() {
-        try {
-            System.out.println(
-                    "List of available workspaces to reserve :" + customerController.listAvailableWorkspaces());
-        } catch (ResourceNotFoundException ex) {
-            System.out.println(ex.getMessage());
+        List<Workspace> availableWorkspaces = customerController.listAvailableWorkspaces();
+        if (availableWorkspaces.isEmpty()) {
+            System.out.println("No available workspaces!");
             return;
         }
+        System.out.println("List of available workspaces to reserve: " + availableWorkspaces);
 
         int workspaceId;
         while (true) {
@@ -72,12 +75,12 @@ class CustomerView extends View {
     }
 
     private void cancelReservation() {
-        try {
-            System.out.println("List of reservations to cancel: " + customerController.listMyReservations());
-        } catch (ResourceNotFoundException ex) {
-            System.out.println(ex.getMessage());
+        List<Reservation> myReservations = customerController.listMyReservations();
+        if (myReservations.isEmpty()) {
+            System.out.println("No reservations!");
             return;
         }
+        System.out.println("List of reservations to cancel: " + myReservations);
 
         int reservationId;
         while (true) {
@@ -98,18 +101,20 @@ class CustomerView extends View {
     }
 
     private void listAvailableWorkspaces() {
-        try {
-            System.out.println("List of available workspaces: " + customerController.listAvailableWorkspaces());
-        } catch (ResourceNotFoundException ex) {
-            System.out.println(ex.getMessage());
+        List<Workspace> availableWorkspaces = customerController.listAvailableWorkspaces();
+        if(availableWorkspaces.isEmpty()) {
+            System.out.println("No available workspaces!");
+            return;
         }
+        System.out.println("Available workspaces :" + availableWorkspaces);
     }
 
     private void listMyReservations() {
-        try {
-            System.out.println("List of reservations :" + customerController.listMyReservations());
-        } catch (ResourceNotFoundException ex) {
-            System.out.println(ex.getMessage());
+        List<Reservation> myReservations = customerController.listMyReservations();
+        if(myReservations.isEmpty()) {
+            System.out.println("No reservations to list!");
+            return;
         }
+        System.out.println("List of reservations: " + myReservations);
     }
 }
