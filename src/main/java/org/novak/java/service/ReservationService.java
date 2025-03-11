@@ -18,9 +18,8 @@ public class ReservationService {
 
     public void makeReservation(int workspaceId) {
         Workspace workspace = Optional.ofNullable(
-                        workspaceRepository.getWorkspaceById(workspaceId))
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Workspace with id: " + workspaceId + " was not found!"));
+                workspaceRepository.getWorkspaceById(workspaceId)).orElseThrow(()
+                -> new ResourceNotFoundException("Workspace with id: " + workspaceId + " was not found!"));
 
         int uniqueReservationId = generateUniqueReservationId();
         reservationRepository.createReservation(
@@ -42,21 +41,11 @@ public class ReservationService {
     }
 
     public List<Workspace> listAvailableWorkspaces() {
-        List<Workspace> availableWorkspaces = workspaceRepository.getAvailableWorkspaces();
-        if (availableWorkspaces.isEmpty()) {
-            throw new ResourceNotFoundException("No available workspaces to reserve!");
-        }
-
-        return availableWorkspaces;
+        return workspaceRepository.getAvailableWorkspaces();
     }
 
     public List<Reservation> listAllReservations() {
-        List<Reservation> allReservations = reservationRepository.getAllReservations();
-        if (allReservations.isEmpty()) {
-            throw new ResourceNotFoundException("No reservations!");
-        }
-
-        return allReservations;
+        return reservationRepository.getAllReservations();
     }
 
     private int generateUniqueReservationId() {

@@ -22,11 +22,7 @@ public class WorkspaceService {
     }
 
     public List<Workspace> listAllWorkspaces() {
-        List<Workspace> allWorkspaces = workspaceRepository.getAllWorkspaces();
-        if (allWorkspaces.isEmpty()) {
-            throw new ResourceNotFoundException("No workspaces!");
-        }
-        return allWorkspaces;
+        return workspaceRepository.getAllWorkspaces();
     }
 
     public void removeWorkspace(int workspaceId) {
