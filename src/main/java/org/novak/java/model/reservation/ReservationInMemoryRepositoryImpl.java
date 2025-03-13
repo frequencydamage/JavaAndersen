@@ -11,7 +11,7 @@ public class ReservationInMemoryRepositoryImpl implements ReservationRepository,
 
     private static ReservationInMemoryRepositoryImpl instance;
     private Map<Integer, Reservation> reservations = new HashMap<>();
-    private static final String FILE_NAME = "reservations.dat";
+    private static final String FILE_NAME = System.getProperty("reservations.file");
 
     private ReservationInMemoryRepositoryImpl() {
     }

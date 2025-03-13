@@ -1,46 +1,44 @@
 package org.novak.java.util;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 
 public class DataLoaderUtil {
 
-    public static <T> T loadData(String fileName) {
-        Path path = Paths.get("src/main/java/org/novak/java/storage", fileName);
+    private static final String STORAGE_PATH = System.getProperty("app.storage.path");
 
+    public static <T> T loadData(String fileName) {
+        Path path = Paths.get(STORAGE_PATH, fileName);
         if (!Files.exists(path)) {
-            try {
-                Files.createDirectories(path.getParent());
-                Files.createFile(path);
-            } catch (IOException e) {
-                System.err.println("File cannot be created!");
-                return null;
-            }
+            return null;
         }
 
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path.toFile()))) {
             return (T) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            System.err.println("No available data to load!");
+            System.err.println("Failed to load data from: " + path);
+            e.printStackTrace();
             return null;
         }
     }
 
     public static <T> void saveData(T instance, String fileName) {
-        Path path = Paths.get("src/main/java/org/novak/java/storage", fileName);
+        Path path = Paths.get(STORAGE_PATH, fileName);
 
         try {
-            Files.createDirectories(path.getParent());
+            if (!Files.exists(path.getParent())) {
+                Files.createDirectories(path.getParent());
+            }
         } catch (IOException e) {
-            System.err.println("Error creating directory to store the data!");
+            System.err.println("Error creating directory: " + path.getParent());
+            e.printStackTrace();
         }
 
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(path.toFile()))) {
             oos.writeObject(instance);
         } catch (IOException e) {
-            System.err.println("Data cannot be saved!");
+            System.err.println("Failed to save data to: " + path);
+            e.printStackTrace();
         }
     }
 }

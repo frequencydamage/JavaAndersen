@@ -11,7 +11,7 @@ public class WorkspaceInMemoryRepositoryImpl implements WorkspaceRepository, Ser
 
     private static WorkspaceInMemoryRepositoryImpl instance;
     private final Map<Integer, Workspace> workspaces = new HashMap<>();
-    private static final String FILE_NAME = "workspaces.dat";
+    private static final String FILE_NAME = System.getProperty("workspaces.file");
 
     private WorkspaceInMemoryRepositoryImpl() {
     }
