@@ -5,7 +5,8 @@ import java.nio.file.*;
 
 public class DataLoaderUtil {
 
-    private static final String STORAGE_PATH = System.getProperty("app.storage.path");
+    private static final String STORAGE_PATH = System.getProperty("app.storage.path",
+            Paths.get(System.getProperty("user.home"), ".workspace-manager").toString());
 
     public static <T> T loadData(String fileName) {
         Path path = Paths.get(STORAGE_PATH, fileName);
