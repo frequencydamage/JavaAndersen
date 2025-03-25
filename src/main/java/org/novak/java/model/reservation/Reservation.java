@@ -1,13 +1,14 @@
 package org.novak.java.model.reservation;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 import org.novak.java.model.workspace.WorkspaceType;
 
 import java.io.Serializable;
 
-@Data
 @AllArgsConstructor
+@Getter
+@ToString
+@EqualsAndHashCode
 public class Reservation implements Serializable {
 
     private Integer worksSpaceId;
