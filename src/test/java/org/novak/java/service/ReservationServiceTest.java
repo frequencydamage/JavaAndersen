@@ -51,7 +51,7 @@ public class ReservationServiceTest {
         verify(workspaceRepository).updateAvailabilityById(testWorkspace.getId(), false);
 
         Reservation actualReservation = reservationCaptor.getValue();
-        Reservation expectedReservation = new Reservation(testWorkspace.getId(), testWorkspace.getWorkspaceType(), 0);
+        Reservation expectedReservation = new Reservation(testWorkspace.getId(), 0, testWorkspace.getWorkspaceType());
 
         assertThat(actualReservation.getReservationId()).isGreaterThan(0);
         assertThat(actualReservation)
@@ -63,7 +63,8 @@ public class ReservationServiceTest {
     @DisplayName("Successfully cancels an existing reservation and updates workspace availability status")
     @Test
     void givenExistingReservation_whenCanceled_thenReservationRemoved_andAvailabilityUpdated() {
-        Reservation reservation = new Reservation(testWorkspace.getId(), testWorkspace.getWorkspaceType(), RESERVATION_ID);
+        Reservation reservation = new Reservation(testWorkspace.getId(), RESERVATION_ID,
+                testWorkspace.getWorkspaceType());
         given(reservationRepository.getById(any(Integer.class))).willReturn(reservation);
 
         reservationService.cancelReservation(RESERVATION_ID);
@@ -114,9 +115,9 @@ public class ReservationServiceTest {
     @Test
     void givenExistingReservations_whenListAll_thenReturnsAllReservations() {
         List<Reservation> expectedReservations = List.of(
-                new Reservation(123, OPEN_SPACE, 555),
-                new Reservation(321, CABIN, 932),
-                new Reservation(369, CABIN, 963)
+                new Reservation(123, 555, OPEN_SPACE),
+                new Reservation(321, 932, CABIN),
+                new Reservation(369, 963, PRIVATE)
         );
         given(reservationRepository.getAll()).willReturn(expectedReservations);
 
