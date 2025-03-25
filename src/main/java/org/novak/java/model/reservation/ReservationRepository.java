@@ -4,13 +4,13 @@ import java.util.List;
 
 public interface ReservationRepository {
 
-    List<Reservation> getAllReservations();
+    List<Reservation> getAll();
 
-    Reservation getReservationByReservationId(int reservationId);
+    Reservation getById(Integer reservationId);
 
-    void createReservation(Reservation reservation);
+    void create(Reservation reservation);
 
-    void deleteReservationByReservationId(int reservationId);
+    void deleteById(Integer reservationId);
 
-    void deleteReservationByWorkspaceId(int workspaceId);
+    void deleteByWorkspaceId(Integer workspaceId);
 }

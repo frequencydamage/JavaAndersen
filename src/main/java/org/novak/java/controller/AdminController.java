@@ -1,4 +1,5 @@
 package org.novak.java.controller;
+
 import org.novak.java.model.reservation.Reservation;
 import org.novak.java.model.workspace.Workspace;
 import org.novak.java.model.workspace.WorkspaceType;
@@ -12,11 +13,11 @@ public class AdminController {
     private ReservationService reservationService = new ReservationService();
     private WorkspaceService workspaceService = new WorkspaceService();
 
-    public void addWorkspace(double price, WorkspaceType workspaceType) {
+    public void addWorkspace(Double price, WorkspaceType workspaceType) {
         workspaceService.addWorkspace(price, workspaceType);
     }
 
-    public void removeWorkspace(int workspaceId) {
+    public void removeWorkspace(Integer workspaceId) {
         workspaceService.removeWorkspace(workspaceId);
     }
 

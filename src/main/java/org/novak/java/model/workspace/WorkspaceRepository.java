@@ -4,15 +4,15 @@ import java.util.List;
 
 public interface WorkspaceRepository {
 
-    List<Workspace> getAllWorkspaces();
+    List<Workspace> getAll();
 
-    List<Workspace> getAvailableWorkspaces();
+    List<Workspace> getAllAvailable();
 
-    Workspace getWorkspaceById(int workspaceId);
+    Workspace getById(Integer workspaceId);
 
-    void createWorkspace(Workspace workspace);
+    void create(Workspace workspace);
 
-    void updateWorkspaceAvailabilityById(int workspaceId, boolean isAvailable);
+    void updateAvailabilityById(Integer workspaceId, Boolean isAvailable);
 
-    void deleteWorkspaceByWorkspaceId(int workspaceId);
+    void deleteById(Integer workspaceId);
 }
