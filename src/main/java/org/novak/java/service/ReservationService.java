@@ -21,11 +21,8 @@ public class ReservationService {
                 workspaceRepository.getById(workspaceId)).orElseThrow(()
                 -> new ResourceNotFoundException("Workspace with id: " + workspaceId + " was not found!"));
 
-        int uniqueReservationId = generateUniqueReservationId();
         reservationRepository.create(
-                new Reservation(workspace.getId(),
-                        workspace.getWorkspaceType(),
-                        uniqueReservationId));
+                new Reservation(workspace.getId(), generateUniqueReservationId(), workspace.getWorkspaceType()));
 
         workspaceRepository.updateAvailabilityById(workspaceId, false);
     }

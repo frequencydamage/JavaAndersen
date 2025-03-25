@@ -44,7 +44,7 @@ public class ReservationInMemoryRepositoryImpl implements ReservationRepository,
     @Override
     public void deleteByWorkspaceId(Integer workspaceId) {
         reservations.values().stream()
-                .filter(reservation -> reservation.getWorksSpaceId() == workspaceId)
+                .filter(reservation -> reservation.getWorksSpaceId().equals(workspaceId))
                 .findFirst()
                 .ifPresent(reservation -> reservations.remove(reservation.getReservationId()));
         saveData();
