@@ -11,6 +11,4 @@ public interface ReservationRepository {
     void create(Reservation reservation);
 
     void deleteById(Integer reservationId);
-
-    void deleteByWorkspaceId(Integer workspaceId);
 }

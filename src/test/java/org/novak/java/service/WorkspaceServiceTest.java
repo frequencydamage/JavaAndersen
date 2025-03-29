@@ -6,7 +6,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.novak.java.customException.ResourceNotFoundException;
-import org.novak.java.model.reservation.ReservationRepository;
 import org.novak.java.model.workspace.Workspace;
 import org.novak.java.model.workspace.WorkspaceRepository;
 
@@ -27,9 +26,6 @@ public class WorkspaceServiceTest {
 
     @Mock
     private WorkspaceRepository workspaceRepository;
-
-    @Mock
-    private ReservationRepository reservationRepository;
 
     @InjectMocks
     private WorkspaceService workspaceService;
@@ -62,7 +58,6 @@ public class WorkspaceServiceTest {
         workspaceService.removeWorkspace(WORKSPACE_ID);
 
         verify(workspaceRepository).deleteById(WORKSPACE_ID);
-        verify(reservationRepository).deleteByWorkspaceId(WORKSPACE_ID);
     }
 
     @DisplayName("Throws exception when trying to remove a non-existing workspace by ID")
@@ -72,7 +67,6 @@ public class WorkspaceServiceTest {
 
         assertThrowsExactly(ResourceNotFoundException.class, () -> workspaceService.removeWorkspace(WORKSPACE_ID));
         verify(workspaceRepository, never()).deleteById(any(Integer.class));
-        verify(reservationRepository, never()).deleteByWorkspaceId(any(Integer.class));
     }
 
     @DisplayName("Listing existing workspaces")
