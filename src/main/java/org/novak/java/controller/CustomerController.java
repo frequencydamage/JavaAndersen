@@ -10,11 +10,11 @@ public class CustomerController {
 
     private ReservationService reservationService = new ReservationService();
 
-    public void makeReservation(int workspaceId) {
+    public void makeReservation(Integer workspaceId) {
         reservationService.makeReservation(workspaceId);
     }
 
-    public void cancelReservation(int reservationId) {
+    public void cancelReservation(Integer reservationId) {
         reservationService.cancelReservation(reservationId);
     }
 

@@ -13,23 +13,40 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>16</maven.compiler.source>
-        <maven.compiler.target>16</maven.compiler.target>
+        <!-- MAVEN -->
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
         <maven-jar-plugin.version>3.1.0</maven-jar-plugin.version>
-        <junit-jupiter-api.version>5.7.0</junit-jupiter-api.version>
-        <junit-jupiter-engine.version>5.7.0</junit-jupiter-engine.version>
+        <!-- JUnit -->
+        <junit-jupiter-api.version>5.8.1</junit-jupiter-api.version>
+        <junit-jupiter-params.version>5.8.1</junit-jupiter-params.version>
+        <junit-jupiter-engine.version>5.8.1</junit-jupiter-engine.version>
+        <!-- AssertJ -->
+        <assertj-core.version>3.27.3</assertj-core.version>
+        <!-- Mockito -->
+        <mockito-core.version>5.12.0</mockito-core.version>
+        <mockito-junit-jupiter>5.12.0</mockito-junit-jupiter>
+        <!-- Lombok -->
+        <lombok.version>1.18.30</lombok.version>
     </properties>
 
     <dependencies>
 
+        <!-- JUnit -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>${junit-jupiter-api.version}</version>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${junit-jupiter-params.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
@@ -37,21 +54,50 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- AssertJ -->
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj-core.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Mockito -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito-core.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>${mockito-junit-jupiter}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
         <plugins>
-
+            <!-- MAVEN -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <source>16</source>
-                    <target>16</target>
+                    <source>17</source>
+                    <target>17</target>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -64,18 +110,17 @@
                     </archive>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.2</version>
+                <version>${maven-surefire-plugin.version}</version>
                 <configuration>
+                    <useModulePath>false</useModulePath>
                     <dependenciesToScan>
                         <dependency>org.junit.jupiter:junit-jupiter-api</dependency>
                     </dependenciesToScan>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 </project>

@@ -75,6 +75,7 @@ class AdminView extends View {
                 2 - Private workspace
                 3 - Cabin
                 """);
+
         while (true) {
             try {
                 int selectedTypeOfWorkspace = Integer.parseInt(scanner.nextLine().trim());
