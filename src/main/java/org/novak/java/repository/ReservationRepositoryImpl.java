@@ -15,8 +15,8 @@ public class ReservationRepositoryImpl extends Repository implements Reservation
     private static ReservationRepositoryImpl instance;
 
     private final String QUERY_CREATE = "INSERT INTO reservation (reservation_Id, workspace_Id, workspace_type) VALUES (?, ?, ?)";
-    private final String QUERY_GET_ALL = "SELECT * FROM reservation";
-    private final String QUERY_GET_BY_ID = "SELECT * FROM reservation WHERE reservation_Id = ?";
+    private final String QUERY_GET_ALL = "SELECT reservation_id, workspace_id, workspace_type FROM reservation";
+    private final String QUERY_GET_BY_ID = "SELECT reservation_id, workspace_id, workspace_type FROM reservation WHERE reservation_id = ?";
     private final String QUERY_DELETE_BY_ID = "DELETE FROM reservation WHERE reservation_Id = ?";
 
     private ReservationRepositoryImpl() {

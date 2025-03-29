@@ -16,9 +16,9 @@ public class WorkspaceRepositoryImpl extends Repository implements WorkspaceRepo
 
     private final String QUERY_CREATE = "INSERT INTO workspace (id, price, workspace_type, is_available) VALUES (?, ?, ?, ?)";
     private final String QUERY_UPDATE_AVAILABILITY_BY_ID = "UPDATE workspace SET is_available = ? WHERE id = ?";
-    private final String QUERY_GET_ALL = "SELECT * FROM workspace";
-    private final String QUERY_GET_ALL_AVAILABLE = "SELECT * FROM workspace WHERE is_available = true";
-    private final String QUERY_GET_BY_ID = "SELECT * FROM workspace WHERE id = ?";
+    private final String QUERY_GET_ALL = "SELECT id, price, workspace_type, is_available FROM workspace";
+    private final String QUERY_GET_ALL_AVAILABLE = "SELECT id, price, workspace_type, is_available FROM workspace WHERE is_available = true";
+    private final String QUERY_GET_BY_ID = "SELECT id, price, workspace_type, is_available FROM workspace WHERE id = ?";
     private final String QUERY_DELETE_BY_ID = "DELETE FROM workspace WHERE id = ?";
 
     private WorkspaceRepositoryImpl() {
