@@ -1,10 +1,8 @@
 package org.novak.java.service;
 
 import org.novak.java.customException.ResourceNotFoundException;
-import org.novak.java.model.reservation.ReservationInMemoryRepositoryImpl;
-import org.novak.java.model.reservation.ReservationRepository;
 import org.novak.java.model.workspace.Workspace;
-import org.novak.java.model.workspace.WorkspaceInMemoryRepositoryImpl;
+import org.novak.java.repository.WorkspaceRepositoryImpl;
 import org.novak.java.model.workspace.WorkspaceRepository;
 import org.novak.java.model.workspace.WorkspaceType;
 
@@ -13,8 +11,7 @@ import java.util.*;
 public class WorkspaceService {
 
     private Random random = new Random();
-    private WorkspaceRepository workspaceRepository = WorkspaceInMemoryRepositoryImpl.getInstance();
-    private ReservationRepository reservationRepository = ReservationInMemoryRepositoryImpl.getInstance();
+    private WorkspaceRepository workspaceRepository = WorkspaceRepositoryImpl.getInstance();
 
     public void addWorkspace(Double price, WorkspaceType workspaceType) {
         workspaceRepository.create(new Workspace(
@@ -31,7 +28,6 @@ public class WorkspaceService {
                         new ResourceNotFoundException("Workspace with id: " + workspaceId + " was not found!"));
 
         workspaceRepository.deleteById(workspaceId);
-        reservationRepository.deleteByWorkspaceId(workspaceId);
     }
 
     private int generateUniqueWorkspaceId() {

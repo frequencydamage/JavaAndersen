@@ -2,13 +2,11 @@ package org.novak.java.model.workspace;
 
 import lombok.*;
 
-import java.io.Serializable;
-
 @AllArgsConstructor
 @Getter
 @ToString
 @EqualsAndHashCode
-public class Workspace implements Serializable {
+public class Workspace {
 
     private Integer id;
     private Double price;
