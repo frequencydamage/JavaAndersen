@@ -12,7 +12,7 @@ public abstract class Repository {
 
     private final EntityManager entityManager;
 
-    Repository() {
+    protected Repository() {
         Map<String, String> props = Map.of(
                 "jakarta.persistence.jdbc.url", ConfigReaderUtil.getProperty("DB_URL"),
                 "jakarta.persistence.jdbc.user", ConfigReaderUtil.getProperty("DB_USER"),
