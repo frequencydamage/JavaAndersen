@@ -1,6 +1,5 @@
 package org.novak.java.repository;
 
-import org.hibernate.Session;
 import org.novak.java.util.ConfigReaderUtil;
 
 import javax.persistence.EntityManager;
@@ -47,6 +46,10 @@ public abstract class Repository {
                 .getResultList();
     }
 
+    protected <T> Query createQuery(String query, Class<T> clazz) {
+        return entityManager.createQuery(query, clazz);
+    }
+
     private void executeTransaction(Runnable action) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
@@ -62,9 +65,5 @@ public abstract class Repository {
             System.out.println("Transaction failed!" + ex.getMessage());
             throw ex;
         }
-    }
-
-    public <T> Query createQuery(String query, Class<T> clazz) {
-        return entityManager.createQuery(query, clazz);
     }
 }
