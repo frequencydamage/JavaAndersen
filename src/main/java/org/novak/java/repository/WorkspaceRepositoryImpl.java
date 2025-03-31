@@ -33,9 +33,8 @@ public class WorkspaceRepositoryImpl extends Repository implements WorkspaceRepo
 
     @Override
     public List<Workspace> getAllAvailable() {
-        return entityManager().createQuery(
-                        "SELECT workspace FROM Workspace workspace WHERE workspace.isAvailable = true",
-                        Workspace.class)
+        return createQuery("SELECT workspace FROM Workspace workspace WHERE workspace.isAvailable = true",
+                Workspace.class)
                 .getResultList();
     }
 
