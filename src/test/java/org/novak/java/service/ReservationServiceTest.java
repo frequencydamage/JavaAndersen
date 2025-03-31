@@ -7,12 +7,15 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.novak.java.BaseTest;
 import org.novak.java.customException.ResourceNotFoundException;
 import org.novak.java.model.reservation.Reservation;
 import org.novak.java.model.reservation.ReservationRepository;
 import org.novak.java.model.workspace.Workspace;
 import org.novak.java.model.workspace.WorkspaceRepository;
+import org.novak.java.repository.Repository;
 
+import javax.persistence.EntityManager;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,7 +28,7 @@ import static org.mockito.Mockito.verify;
 import static org.novak.java.model.workspace.WorkspaceType.*;
 
 @ExtendWith(MockitoExtension.class)
-public class ReservationServiceTest {
+public class ReservationServiceTest extends BaseTest {
 
     private final Workspace testWorkspace = new Workspace(567, 987.65, PRIVATE, true);
     private final Integer RESERVATION_ID = 163;

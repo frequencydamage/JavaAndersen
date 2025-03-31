@@ -6,12 +6,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.novak.java.BaseTest;
 import org.novak.java.service.ReservationService;
 
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-public class CustomerControllerTest {
+public class CustomerControllerTest extends BaseTest {
 
     private final int WORKSPACE_ID = 993;
     private final int RESERVATION_ID = 261;

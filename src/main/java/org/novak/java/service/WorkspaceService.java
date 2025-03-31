@@ -2,16 +2,25 @@ package org.novak.java.service;
 
 import org.novak.java.customException.ResourceNotFoundException;
 import org.novak.java.model.workspace.Workspace;
-import org.novak.java.repository.WorkspaceRepositoryImpl;
 import org.novak.java.model.workspace.WorkspaceRepository;
 import org.novak.java.model.workspace.WorkspaceType;
+import org.novak.java.repository.WorkspaceRepositoryImpl;
 
 import java.util.*;
 
 public class WorkspaceService {
 
     private Random random = new Random();
-    private WorkspaceRepository workspaceRepository = WorkspaceRepositoryImpl.getInstance();
+    private WorkspaceRepository workspaceRepository;
+
+    public WorkspaceService() {
+        workspaceRepository = WorkspaceRepositoryImpl.getInstance();
+    }
+
+    // Constructor for Unit-Tests mocks
+    WorkspaceService(WorkspaceRepository workspaceRepository) {
+        this.workspaceRepository = workspaceRepository;
+    }
 
     public void addWorkspace(Double price, WorkspaceType workspaceType) {
         workspaceRepository.create(new Workspace(

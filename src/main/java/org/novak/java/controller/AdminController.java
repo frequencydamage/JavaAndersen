@@ -10,8 +10,19 @@ import java.util.List;
 
 public class AdminController {
 
-    private ReservationService reservationService = new ReservationService();
-    private WorkspaceService workspaceService = new WorkspaceService();
+    private WorkspaceService workspaceService;
+    private ReservationService reservationService;
+
+    public AdminController() {
+        workspaceService = new WorkspaceService();
+        reservationService = new ReservationService();
+    }
+
+    // Constructor for Unit-Tests mocks
+    AdminController(WorkspaceService workspaceService, ReservationService reservationService) {
+        this.workspaceService = workspaceService;
+        this.reservationService = reservationService;
+    }
 
     public void addWorkspace(Double price, WorkspaceType workspaceType) {
         workspaceService.addWorkspace(price, workspaceType);

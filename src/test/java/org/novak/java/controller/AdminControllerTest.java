@@ -6,6 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.novak.java.BaseTest;
 import org.novak.java.service.ReservationService;
 import org.novak.java.service.WorkspaceService;
 
@@ -13,7 +14,7 @@ import static org.mockito.Mockito.verify;
 import static org.novak.java.model.workspace.WorkspaceType.CABIN;
 
 @ExtendWith(MockitoExtension.class)
-public class AdminControllerTest {
+public class AdminControllerTest extends BaseTest {
 
     private static final Double WORKSPACE_PRICE = 787.33;
     private static final Integer WORKSPACE_ID = 164;

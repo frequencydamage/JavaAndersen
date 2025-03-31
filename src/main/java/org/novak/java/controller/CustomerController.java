@@ -8,7 +8,16 @@ import java.util.List;
 
 public class CustomerController {
 
-    private ReservationService reservationService = new ReservationService();
+    private ReservationService reservationService;
+
+    public CustomerController() {
+        reservationService = new ReservationService();
+    }
+
+    // Constructor for Unit-Tests mocks
+    CustomerController(ReservationService reservationService) {
+        this.reservationService = reservationService;
+    }
 
     public void makeReservation(Integer workspaceId) {
         reservationService.makeReservation(workspaceId);
