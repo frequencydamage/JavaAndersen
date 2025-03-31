@@ -1,10 +1,12 @@
 package org.novak.java.repository;
 
+import org.hibernate.Session;
 import org.novak.java.util.ConfigReaderUtil;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import java.util.List;
 import java.util.Map;
 
@@ -62,7 +64,7 @@ public abstract class Repository {
         }
     }
 
-    public EntityManager entityManager() {
-        return entityManager;
+    public <T> Query createQuery(String query, Class<T> clazz) {
+        return entityManager.createQuery(query, clazz);
     }
 }
