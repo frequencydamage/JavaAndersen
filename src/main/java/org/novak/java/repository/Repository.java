@@ -28,7 +28,6 @@ public abstract class Repository {
     protected void create(Object entity) {
         entityManager.clear();
         executeTransaction(() -> entityManager.persist(entity));
-        entityManager.refresh(entity);
     }
 
     protected void update(Object entity) {
