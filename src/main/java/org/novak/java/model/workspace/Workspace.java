@@ -1,13 +1,14 @@
 package org.novak.java.model.workspace;
 
 import lombok.*;
+import org.novak.java.model.reservation.Reservation;
 
 import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString
+@ToString(exclude = "reservation")
 @EqualsAndHashCode
 @Entity
 @Table(name = "workspace")
@@ -27,4 +28,8 @@ public class Workspace {
     @Setter
     @Column(name = "is_available", nullable = false)
     private Boolean isAvailable;
+
+    @Setter
+    @OneToOne(mappedBy = "workspace", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private Reservation reservation;
 }

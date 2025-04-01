@@ -26,7 +26,9 @@ public abstract class Repository {
     }
 
     protected void create(Object entity) {
+        entityManager.clear();
         executeTransaction(() -> entityManager.persist(entity));
+        entityManager.refresh(entity);
     }
 
     protected void update(Object entity) {
@@ -42,6 +44,7 @@ public abstract class Repository {
     }
 
     protected <T> List<T> getAll(Class<T> clazz) {
+        entityManager.clear();
         return entityManager.createQuery("SELECT entity FROM " + clazz.getSimpleName() + " entity", clazz)
                 .getResultList();
     }
@@ -55,7 +58,6 @@ public abstract class Repository {
         try {
             transaction.begin();
             action.run();
-            entityManager.flush();
             transaction.commit();
         } catch (Exception ex) {
             if (transaction.isActive()) {

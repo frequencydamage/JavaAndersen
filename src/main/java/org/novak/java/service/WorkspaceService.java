@@ -23,8 +23,7 @@ public class WorkspaceService {
     }
 
     public void addWorkspace(Double price, WorkspaceType workspaceType) {
-        workspaceRepository.create(new Workspace(
-                generateUniqueWorkspaceId(), price, workspaceType, true));
+        workspaceRepository.create(new Workspace(generateUniqueWorkspaceId(), price, workspaceType, true, null));
     }
 
     public List<Workspace> listAllWorkspaces() {
