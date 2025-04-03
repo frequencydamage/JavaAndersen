@@ -33,12 +33,10 @@ public class AdminController {
         workspaceService.removeWorkspace(workspaceId);
     }
 
-    @Transactional
     public List<Workspace> listWorkspaces() {
         return workspaceService.listAllWorkspaces();
     }
 
-    @Transactional
     public List<Reservation> listAllReservations() {
         return reservationService.listAllReservations();
     }

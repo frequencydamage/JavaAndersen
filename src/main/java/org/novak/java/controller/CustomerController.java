@@ -29,12 +29,10 @@ public class CustomerController {
         reservationService.cancelReservation(reservationId);
     }
 
-    @Transactional
     public List<Workspace> listAvailableWorkspaces() {
         return reservationService.listAvailableWorkspaces();
     }
 
-    @Transactional
     public List<Reservation> listMyReservations() {
         return reservationService.listAllReservations();
     }
