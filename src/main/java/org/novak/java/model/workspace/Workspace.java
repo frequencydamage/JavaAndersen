@@ -1,9 +1,9 @@
 package org.novak.java.model.workspace;
 
+import jakarta.persistence.*;
 import lombok.*;
 import org.novak.java.model.reservation.Reservation;
 
-import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor

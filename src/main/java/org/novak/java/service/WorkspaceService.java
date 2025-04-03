@@ -4,21 +4,19 @@ import org.novak.java.customException.ResourceNotFoundException;
 import org.novak.java.model.workspace.Workspace;
 import org.novak.java.model.workspace.WorkspaceRepository;
 import org.novak.java.model.workspace.WorkspaceType;
-import org.novak.java.repository.WorkspaceRepositoryImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@Service
 public class WorkspaceService {
 
     private Random random = new Random();
     private WorkspaceRepository workspaceRepository;
 
-    public WorkspaceService() {
-        workspaceRepository = WorkspaceRepositoryImpl.getInstance();
-    }
-
-    // Constructor for Unit-Tests mocks
-    WorkspaceService(WorkspaceRepository workspaceRepository) {
+    @Autowired
+    public WorkspaceService(WorkspaceRepository workspaceRepository) {
         this.workspaceRepository = workspaceRepository;
     }
 
