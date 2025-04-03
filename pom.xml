@@ -33,9 +33,16 @@
         <!-- JDBC PostgreSQL -->
         <postgresql.version>42.7.5</postgresql.version>
         <!-- Hibernate -->
-        <hibernate-core.version>5.6.9.Final</hibernate-core.version>
+        <hibernate-core.version>6.1.6.Final</hibernate-core.version>
         <!-- JPA -->
         <jakarta.persistence-api.version>3.1.0</jakarta.persistence-api.version>
+        <!-- Logger -->
+        <log4j-api.version>2.20.0</log4j-api.version>
+        <log4j-core.version>2.20.0</log4j-core.version>
+        <!-- Spring -->
+        <spring-context.version>6.2.0</spring-context.version>
+        <spring-jdbc.version>6.2.0</spring-jdbc.version>
+        <spring-orm.version>6.2.0</spring-orm.version>
     </properties>
 
     <dependencies>
@@ -109,6 +116,35 @@
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
             <version>${jakarta.persistence-api.version}</version>
+        </dependency>
+
+        <!-- Logger -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j-core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j-api.version}</version>
+        </dependency>
+
+        <!-- Spring -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring-context.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring-jdbc.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring-orm.version}</version>
         </dependency>
 
     </dependencies>
