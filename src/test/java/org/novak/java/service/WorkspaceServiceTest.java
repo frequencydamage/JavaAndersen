@@ -1,10 +1,10 @@
 package org.novak.java.service;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.novak.java.BaseTest;
 import org.novak.java.customException.ResourceNotFoundException;
 import org.novak.java.model.workspace.Workspace;
 import org.novak.java.model.workspace.WorkspaceRepository;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 import static org.novak.java.model.workspace.WorkspaceType.*;
 
 @ExtendWith(MockitoExtension.class)
-public class WorkspaceServiceTest {
+public class WorkspaceServiceTest extends BaseTest {
 
     private final Double WORKSPACE_PRICE = 1234.56;
     private final Integer WORKSPACE_ID = 555;
@@ -40,7 +40,7 @@ public class WorkspaceServiceTest {
         verify(workspaceRepository).create(workspaceCaptor.capture());
 
         Workspace actualWorkspace = workspaceCaptor.getValue();
-        Workspace expectedWorkspace = new Workspace(0, WORKSPACE_PRICE, OPEN_SPACE, true);
+        Workspace expectedWorkspace = new Workspace(0, WORKSPACE_PRICE, OPEN_SPACE, true, null);
 
         assertThat(actualWorkspace.getId()).isGreaterThan(0);
         assertThat(actualWorkspace)
@@ -52,7 +52,7 @@ public class WorkspaceServiceTest {
     @DisplayName("Successfully removes an existing workspace by ID")
     @Test
     void givenExistingWorkspace_whenRemoveById_thenWorkspaceRemoved() {
-        Workspace workspace = new Workspace(WORKSPACE_ID, WORKSPACE_PRICE, CABIN, true);
+        Workspace workspace = new Workspace(WORKSPACE_ID, WORKSPACE_PRICE, CABIN, true, null);
         given(workspaceRepository.getById(any(Integer.class))).willReturn(workspace);
 
         workspaceService.removeWorkspace(WORKSPACE_ID);
@@ -73,9 +73,9 @@ public class WorkspaceServiceTest {
     @Test
     void givenExistingWorkspaces_whenListAll_thenReturnsWorkspaces() {
         List<Workspace> expectedWorkspaces = List.of(
-                new Workspace(1, 1499.99, OPEN_SPACE, true),
-                new Workspace(999, 1.0, CABIN, false),
-                new Workspace(657, 125.55, PRIVATE, true)
+                new Workspace(1, 1499.99, OPEN_SPACE, true, null),
+                new Workspace(999, 1.0, CABIN, false, null),
+                new Workspace(657, 125.55, PRIVATE, true, null)
         );
         given(workspaceRepository.getAll()).willReturn(expectedWorkspaces);
 

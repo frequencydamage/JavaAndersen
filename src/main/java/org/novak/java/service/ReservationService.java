@@ -2,27 +2,38 @@ package org.novak.java.service;
 
 import org.novak.java.customException.ResourceNotFoundException;
 import org.novak.java.model.reservation.Reservation;
-import org.novak.java.repository.ReservationRepositoryImpl;
 import org.novak.java.model.reservation.ReservationRepository;
 import org.novak.java.model.workspace.Workspace;
-import org.novak.java.repository.WorkspaceRepositoryImpl;
 import org.novak.java.model.workspace.WorkspaceRepository;
+import org.novak.java.repository.ReservationRepositoryImpl;
+import org.novak.java.repository.WorkspaceRepositoryImpl;
 
 import java.util.*;
 
 public class ReservationService {
 
     private Random random = new Random();
-    private ReservationRepository reservationRepository = ReservationRepositoryImpl.getInstance();
-    private WorkspaceRepository workspaceRepository = WorkspaceRepositoryImpl.getInstance();
+    private WorkspaceRepository workspaceRepository;
+    private ReservationRepository reservationRepository;
+
+    public ReservationService() {
+        workspaceRepository = WorkspaceRepositoryImpl.getInstance();
+        reservationRepository = ReservationRepositoryImpl.getInstance();
+    }
+
+    // Constructor for Unit-Tests mocks
+    ReservationService(WorkspaceRepository workspaceRepository, ReservationRepository reservationRepository) {
+        this.workspaceRepository = workspaceRepository;
+        this.reservationRepository = reservationRepository;
+    }
 
     public void makeReservation(Integer workspaceId) {
         Workspace workspace = Optional.ofNullable(
                 workspaceRepository.getById(workspaceId)).orElseThrow(()
                 -> new ResourceNotFoundException("Workspace with id: " + workspaceId + " was not found!"));
 
-        reservationRepository.create(
-                new Reservation(workspace.getId(), generateUniqueReservationId(), workspace.getWorkspaceType()));
+        Reservation reservation = new Reservation(generateUniqueReservationId(), workspace);
+        reservationRepository.create(reservation);
 
         workspaceRepository.updateAvailabilityById(workspaceId, false);
     }
@@ -34,7 +45,7 @@ public class ReservationService {
                         "Reservation with id: " + reservationId + " was not found!"));
 
         reservationRepository.deleteById(reservationId);
-        workspaceRepository.updateAvailabilityById(reservation.getWorksSpaceId(), true);
+        workspaceRepository.updateAvailabilityById(reservation.getWorkspace().getId(), true);
     }
 
     public List<Workspace> listAvailableWorkspaces() {

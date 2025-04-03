@@ -7,6 +7,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.novak.java.BaseTest;
 import org.novak.java.customException.ResourceNotFoundException;
 import org.novak.java.model.reservation.Reservation;
 import org.novak.java.model.reservation.ReservationRepository;
@@ -25,9 +26,9 @@ import static org.mockito.Mockito.verify;
 import static org.novak.java.model.workspace.WorkspaceType.*;
 
 @ExtendWith(MockitoExtension.class)
-public class ReservationServiceTest {
+public class ReservationServiceTest extends BaseTest {
 
-    private final Workspace testWorkspace = new Workspace(567, 987.65, PRIVATE, true);
+    private final Workspace testWorkspace = new Workspace(567, 987.65, PRIVATE, true, null);
     private final Integer RESERVATION_ID = 163;
 
     @Mock
@@ -51,7 +52,7 @@ public class ReservationServiceTest {
         verify(workspaceRepository).updateAvailabilityById(testWorkspace.getId(), false);
 
         Reservation actualReservation = reservationCaptor.getValue();
-        Reservation expectedReservation = new Reservation(testWorkspace.getId(), 0, testWorkspace.getWorkspaceType());
+        Reservation expectedReservation = new Reservation(0, testWorkspace);
 
         assertThat(actualReservation.getReservationId()).isGreaterThan(0);
         assertThat(actualReservation)
@@ -63,14 +64,13 @@ public class ReservationServiceTest {
     @DisplayName("Successfully cancels an existing reservation and updates workspace availability status")
     @Test
     void givenExistingReservation_whenCanceled_thenReservationRemoved_andAvailabilityUpdated() {
-        Reservation reservation = new Reservation(testWorkspace.getId(), RESERVATION_ID,
-                testWorkspace.getWorkspaceType());
+        Reservation reservation = new Reservation(RESERVATION_ID, testWorkspace);
         given(reservationRepository.getById(any(Integer.class))).willReturn(reservation);
 
         reservationService.cancelReservation(RESERVATION_ID);
 
         verify(reservationRepository).deleteById(reservation.getReservationId());
-        verify(workspaceRepository).updateAvailabilityById(reservation.getWorksSpaceId(), true);
+        verify(workspaceRepository).updateAvailabilityById(testWorkspace.getId(), true);
     }
 
     @DisplayName("Throws exception when canceling non-existing reservation by ID")
@@ -88,9 +88,9 @@ public class ReservationServiceTest {
     @Test
     void givenAvailableWorkspaces_whenListAvailable_thenReturnsAvailableWorkspaces() {
         List<Workspace> expectedWorkspaces = List.of(
-                new Workspace(1, 1499.99, OPEN_SPACE, true),
-                new Workspace(999, 1.0, CABIN, true),
-                new Workspace(657, 125.55, PRIVATE, true)
+                new Workspace(1, 1499.99, OPEN_SPACE, true, null),
+                new Workspace(999, 1.0, CABIN, true, null),
+                new Workspace(657, 125.55, PRIVATE, true, null)
         );
         given(workspaceRepository.getAllAvailable()).willReturn(expectedWorkspaces);
 
@@ -115,9 +115,9 @@ public class ReservationServiceTest {
     @Test
     void givenExistingReservations_whenListAll_thenReturnsAllReservations() {
         List<Reservation> expectedReservations = List.of(
-                new Reservation(123, 555, OPEN_SPACE),
-                new Reservation(321, 932, CABIN),
-                new Reservation(369, 963, PRIVATE)
+                new Reservation(123, testWorkspace),
+                new Reservation(321, testWorkspace),
+                new Reservation(369, testWorkspace)
         );
         given(reservationRepository.getAll()).willReturn(expectedReservations);
 

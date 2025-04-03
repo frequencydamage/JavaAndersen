@@ -32,6 +32,10 @@
         <lombok.version>1.18.30</lombok.version>
         <!-- JDBC PostgreSQL -->
         <postgresql.version>42.7.5</postgresql.version>
+        <!-- Hibernate -->
+        <hibernate-core.version>5.6.9.Final</hibernate-core.version>
+        <!-- JPA -->
+        <jakarta.persistence-api.version>3.1.0</jakarta.persistence-api.version>
     </properties>
 
     <dependencies>
@@ -91,6 +95,20 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${postgresql.version}</version>
+        </dependency>
+
+        <!-- Hibernate -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate-core.version}</version>
+        </dependency>
+
+        <!-- JPA -->
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <version>${jakarta.persistence-api.version}</version>
         </dependency>
 
     </dependencies>
