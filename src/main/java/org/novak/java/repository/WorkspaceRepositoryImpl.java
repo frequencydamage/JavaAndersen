@@ -2,15 +2,12 @@ package org.novak.java.repository;
 
 import org.novak.java.model.workspace.Workspace;
 import org.novak.java.model.workspace.WorkspaceRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public class WorkspaceRepositoryImpl extends Repository implements WorkspaceRepository {
-
-    private static WorkspaceRepository instance;
-
-    private WorkspaceRepositoryImpl() {
-    }
+@Repository
+public class WorkspaceRepositoryImpl extends RepositoryImpl implements WorkspaceRepository {
 
     @Override
     public void create(Workspace workspace) {
@@ -49,12 +46,5 @@ public class WorkspaceRepositoryImpl extends Repository implements WorkspaceRepo
         if (workspace != null) {
             delete(workspace);
         }
-    }
-
-    public static WorkspaceRepository getInstance() {
-        if (instance == null) {
-            instance = new WorkspaceRepositoryImpl();
-        }
-        return instance;
     }
 }

@@ -1,9 +1,15 @@
 package org.novak.java.view;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
 public class MainView extends View {
 
-    private AdminView adminMenu = new AdminView();
-    private CustomerView customerMenu = new CustomerView();
+    @Autowired
+    private AdminView adminMenu;
+    @Autowired
+    private CustomerView customerMenu;
 
     @Override
     public void start() {

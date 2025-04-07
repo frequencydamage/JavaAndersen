@@ -2,15 +2,12 @@ package org.novak.java.repository;
 
 import org.novak.java.model.reservation.Reservation;
 import org.novak.java.model.reservation.ReservationRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public class ReservationRepositoryImpl extends Repository implements ReservationRepository {
-
-    private static ReservationRepository instance;
-
-    private ReservationRepositoryImpl() {
-    }
+@Repository
+public class ReservationRepositoryImpl extends RepositoryImpl implements ReservationRepository {
 
     @Override
     public void create(Reservation reservation) {
@@ -33,12 +30,5 @@ public class ReservationRepositoryImpl extends Repository implements Reservation
         if (reservation != null) {
             delete(reservation);
         }
-    }
-
-    public static ReservationRepository getInstance() {
-        if (instance == null) {
-            instance = new ReservationRepositoryImpl();
-        }
-        return instance;
     }
 }

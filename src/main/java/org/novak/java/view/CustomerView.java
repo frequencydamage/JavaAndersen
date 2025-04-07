@@ -4,12 +4,20 @@ import org.novak.java.controller.CustomerController;
 import org.novak.java.customException.ResourceNotFoundException;
 import org.novak.java.model.reservation.Reservation;
 import org.novak.java.model.workspace.Workspace;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 class CustomerView extends View {
 
-    private CustomerController customerController = new CustomerController();
+    private CustomerController customerController;
+
+    @Autowired
+    public CustomerView(CustomerController customerController) {
+        this.customerController = customerController;
+    }
 
     @Override
     public void start() {

@@ -5,24 +5,20 @@ import org.novak.java.model.reservation.Reservation;
 import org.novak.java.model.reservation.ReservationRepository;
 import org.novak.java.model.workspace.Workspace;
 import org.novak.java.model.workspace.WorkspaceRepository;
-import org.novak.java.repository.ReservationRepositoryImpl;
-import org.novak.java.repository.WorkspaceRepositoryImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@Service
 public class ReservationService {
 
     private Random random = new Random();
     private WorkspaceRepository workspaceRepository;
     private ReservationRepository reservationRepository;
 
-    public ReservationService() {
-        workspaceRepository = WorkspaceRepositoryImpl.getInstance();
-        reservationRepository = ReservationRepositoryImpl.getInstance();
-    }
-
-    // Constructor for Unit-Tests mocks
-    ReservationService(WorkspaceRepository workspaceRepository, ReservationRepository reservationRepository) {
+    @Autowired
+    public ReservationService(WorkspaceRepository workspaceRepository, ReservationRepository reservationRepository) {
         this.workspaceRepository = workspaceRepository;
         this.reservationRepository = reservationRepository;
     }

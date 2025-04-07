@@ -1,10 +1,8 @@
 package org.novak.java.model.reservation;
 
+import jakarta.persistence.*;
 import lombok.*;
 import org.novak.java.model.workspace.Workspace;
-import org.novak.java.model.workspace.WorkspaceType;
-
-import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor

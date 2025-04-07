@@ -5,14 +5,22 @@ import org.novak.java.customException.ResourceNotFoundException;
 import org.novak.java.model.reservation.Reservation;
 import org.novak.java.model.workspace.Workspace;
 import org.novak.java.model.workspace.WorkspaceType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
+@Component
 class AdminView extends View {
 
-    private AdminController adminController = new AdminController();
+    private AdminController adminController;
+
+    @Autowired
+    public AdminView(AdminController adminController) {
+        this.adminController = adminController;
+    }
 
     @Override
     public void start() {
