@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Make Reservation</title>
+</head>
+<body>
+<h2>Make a Reservation</h2>
+
+<p th:text="${message}"></p>
+
+<form th:action="@{/customer/makeReservation}" method="post">
+    <ul th:if="${workspaces}">
+        <li th:each="workspace : ${workspaces}">
+            <label>
+                <input type="radio" name="workspaceId" th:value="${workspace.id}" />
+                Workspace ID: <span th:text="${workspace.id}"></span>,
+                Type: <span th:text="${workspace.workspaceType.getWorkspaceType()}"></span>,
+                Price: $<span th:text="${workspace.price}"></span>
+            </label>
+        </li>
+    </ul>
+    <button type="submit">Make Reservation</button>
+</form>
+
+<a th:href="@{/customer}">Back to Customer Dashboard</a>
+</body>
+</html>

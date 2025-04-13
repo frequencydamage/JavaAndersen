@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Available Workspaces</title>
+</head>
+<body>
+<h2>Available Workspaces</h2>
+
+<p th:text="${message}"></p>
+
+<ul th:if="${workspaces}">
+    <li th:each="workspace : ${workspaces}">
+        Workspace ID: <span th:text="${workspace.id}"></span><br/>
+        Type: <span th:text="${workspace.workspaceType.getWorkspaceType()}"></span><br/>
+        Price: $<span th:text="${workspace.price}"></span><br/>
+    </li>
+</ul>
+
+<a th:href="@{/customer}">Back to Customer Dashboard</a>
+</body>
+</html>

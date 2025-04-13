@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Workspace</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h2>Add New Workspace</h2>
+
+<form th:action="@{/admin/addWorkspace}" method="post">
+    <label for="price">Price:</label>
+    <input type="number" step="0.01" id="price" name="price" required/><br><br>
+
+    <label for="workspaceType">Workspace Type:</label>
+    <select id="workspaceType" name="workspaceType">
+        <option value="1">OPEN-SPACE</option>
+        <option value="2">PRIVATE</option>
+        <option value="3">CABIN</option>
+    </select><br><br>
+
+    <button type="submit">Add Workspace</button>
+</form>
+
+<p th:text="${message}"></p>
+<a th:href="@{/admin}">Back to Admin Dashboard</a>
+</body>
+</html>

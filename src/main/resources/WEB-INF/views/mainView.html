@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Main View</title>
+</head>
+<body>
+<h2>Welcome to the Workspace Management System</h2>
+<p>Select your login type:</p>
+<form th:action="@{/admin}" method="get">
+    <button type="submit">Login as Admin</button>
+</form>
+<form th:action="@{/customer}" method="get">
+    <button type="submit">Login as Customer</button>
+</form>
+</body>
+</html>

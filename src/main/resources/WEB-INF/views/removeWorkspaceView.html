@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Remove Workspace</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h2>Remove Workspace</h2>
+
+<p th:text="${message}"></p>
+
+<form th:action="@{/admin/removeWorkspace}" method="post" th:if="${workspaces != null and workspaces.size() > 0}">
+    <label for="workspaceId">Select Workspace to remove:</label>
+    <select id="workspaceId" name="workspaceId">
+        <option th:each="workspace : ${workspaces}"
+                th:value="${workspace.id}"
+                th:text="'ID: ' + ${workspace.id} + ', Type: ' + ${workspace.workspaceType.getWorkspaceType()} + ', Price: $' + ${workspace.price}">
+        </option>
+    </select><br><br>
+    <button type="submit">Remove</button>
+</form>
+
+<a th:href="@{/admin}" class="btn btn-primary">Back to Admin Dashboard</a>
+
+</body>
+</html>

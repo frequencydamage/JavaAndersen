@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 2em;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        .menu {
+            margin-top: 2em;
+        }
+        .menu a {
+            display: block;
+            margin-bottom: 1em;
+            text-decoration: none;
+            color: #2980b9;
+            font-weight: bold;
+        }
+        .menu a:hover {
+            color: #1abc9c;
+        }
+    </style>
+</head>
+<body>
+<h1>Welcome to the Admin Dashboard</h1>
+<p>You can manage the workspace system from this panel:</p>
+
+<div class="menu">
+    <a th:href="@{/admin/addWorkspace}">➕ Add Workspace</a>
+    <a th:href="@{/admin/removeWorkspace}">➖ Remove Workspace</a>
+    <a th:href="@{/admin/listWorkspaces}">📋 List Workspaces</a>
+    <a th:href="@{/admin/listReservations}">📑 List Reservations</a>
+    <a th:href="@{/}">🔙 Back to Main Menu</a>
+</div>
+
+</body>
+</html>
