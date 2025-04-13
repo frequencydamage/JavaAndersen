@@ -1,7 +1,8 @@
-package org.novak.java.springConfig;
+package org.novak.java.config;
 
 import jakarta.persistence.EntityManagerFactory;
 import org.novak.java.util.ConfigReaderUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -19,14 +20,17 @@ import java.util.Properties;
 @ComponentScan(basePackages = "org.novak.java")
 public class SpringConfig {
 
+    @Autowired
+    ConfigReaderUtil configReaderUtil;
+
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
         dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl(ConfigReaderUtil.getProperty("DB_URL"));
-        dataSource.setUsername(ConfigReaderUtil.getProperty("DB_USER"));
-        dataSource.setPassword(ConfigReaderUtil.getProperty("DB_PASS"));
+        dataSource.setUrl(configReaderUtil.getProperty("DB_URL"));
+        dataSource.setUsername(configReaderUtil.getProperty("DB_USER"));
+        dataSource.setPassword(configReaderUtil.getProperty("DB_PASS"));
 
         return dataSource;
     }

@@ -1,23 +1,29 @@
 package org.novak.java.util;
 
-import java.io.FileInputStream;
+import org.springframework.stereotype.Component;
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
+@Component
 public class ConfigReaderUtil {
 
-    private static Properties configProperties = new Properties();
+    private Properties configProperties = new Properties();
     private static final String CONFIG_PATH = "config.properties";
 
-    static {
-        try {
-            configProperties.load(new FileInputStream(CONFIG_PATH));
+    public ConfigReaderUtil() {
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(CONFIG_PATH)) {
+            if (inputStream == null) {
+                throw new RuntimeException("config.properties not found in resources");
+            }
+            configProperties.load(inputStream);
         } catch (IOException ex) {
             throw new RuntimeException("Error loading config.properties", ex);
         }
     }
 
-    public static String getProperty(String key) {
+    public String getProperty(String key) {
         return configProperties.getProperty(key);
     }
 }
