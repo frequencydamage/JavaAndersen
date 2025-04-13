@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Reservations</title>
+</head>
+<body>
+<h2>Your Reservations</h2>
+
+<p th:text="${message}"></p>
+
+<ul th:if="${reservations}">
+    <li th:each="reservation : ${reservations}">
+        Reservation ID: <span th:text="${reservation.reservationId}"></span><br/>
+        Workspace ID: <span th:text="${reservation.workspace.id}"></span><br/>
+        Type: <span th:text="${reservation.workspace.workspaceType.getWorkspaceType()}"></span><br/>
+        Price: $<span th:text="${reservation.workspace.price}"></span><br/>
+    </li>
+</ul>
+
+<a th:href="@{/customer}">Back to Customer Dashboard</a>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cancel Reservation</title>
+</head>
+<body>
+<h2>Cancel Reservation</h2>
+
+<p th:text="${message}"></p>
+
+<form th:action="@{/customer/cancelReservation}" method="post">
+    <label for="reservationId">Select Reservation to cancel:</label>
+    <select id="reservationId" name="reservationId">
+        <option th:each="res : ${reservations}"
+                th:value="${res.reservationId}"
+                th:text="'ID: ' + ${res.reservationId} + ', Workspace: ' + ${res.workspace.id} + ', Type: ' + ${res.workspace.workspaceType.getWorkspaceType()}">
+        </option>
+    </select><br><br>
+    <button type="submit">Cancel Reservation</button>
+</form>
+
+<a th:href="@{/customer}">Back to Customer Dashboard</a>
+</body>
+</html>

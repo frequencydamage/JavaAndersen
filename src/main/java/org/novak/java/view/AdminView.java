@@ -6,14 +6,20 @@ import org.novak.java.model.reservation.Reservation;
 import org.novak.java.model.workspace.Workspace;
 import org.novak.java.model.workspace.WorkspaceType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
-@Component
-class AdminView extends View {
+@Controller
+@RequestMapping("/admin")
+public class AdminView {
 
     private AdminController adminController;
 
@@ -22,134 +28,80 @@ class AdminView extends View {
         this.adminController = adminController;
     }
 
-    @Override
-    public void start() {
-        while (true) {
-            printMenu();
-            String input = scanner.nextLine().trim();
-            if (input.equals("5")) {
-                return;
-            }
-            handleInput(input);
+    @GetMapping
+    public String showAdminView() {
+        return "adminView";
+    }
+
+    @GetMapping("/addWorkspace")
+    public String showAddWorkspaceForm() {
+        return "addWorkspaceView";
+    }
+
+    @PostMapping("/addWorkspace")
+    public String addWorkspace(@RequestParam("price") double price,
+                               @RequestParam("workspaceType") int workspaceType,
+                               Model model) {
+        if (price > 0.00 && price < 1500.00) {
+            price = new BigDecimal(price).setScale(2, RoundingMode.HALF_UP).doubleValue();
+            WorkspaceType type = WorkspaceType.values()[workspaceType - 1];
+            adminController.addWorkspace(price, type);
+
+            model.addAttribute("message", "Workspace successfully added!");
+
+            return "adminView";
+        } else {
+            model.addAttribute("message", "Price must be between 0.01 and 1499.99");
+
+            return "addWorkspaceView";
         }
     }
 
-    @Override
-    protected void printMenu() {
-        System.out.println("""
-                ==================================
-                Admin Menu:
-                1 - Add Workspace
-                2 - Remove Workspace
-                3 - View All Workspaces
-                4 - List All Reservations
-                5 - Exit
-                ==================================
-                """);
-    }
-
-    @Override
-    public void handleInput(String input) {
-        switch (input) {
-            case "1" -> addWorkspace();
-            case "2" -> removeWorkspace();
-            case "3" -> listWorkspaces();
-            case "4" -> listAllReservations();
-            default -> System.out.println("No such option");
-        }
-    }
-
-    private void addWorkspace() {
-        double price;
-        WorkspaceType workspaceType;
-
-        System.out.println("Please, enter the price: ");
-        while (true) {
-            try {
-                price = Double.parseDouble(scanner.nextLine().trim());
-                if (price > 0.00 && price < 1500.00) {
-                    price = new BigDecimal(price).setScale(2, RoundingMode.HALF_UP).doubleValue();
-                    break;
-                }
-                System.out.println("Price must be between 0.01 and 1499.99. Try again.");
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a numeric price.");
-            }
-        }
-
-        System.out.println("""
-                Please, select workspace type
-                1 - Open-space workspace
-                2 - Private workspace
-                3 - Cabin
-                """);
-
-        while (true) {
-            try {
-                int selectedTypeOfWorkspace = Integer.parseInt(scanner.nextLine().trim());
-                switch (selectedTypeOfWorkspace) {
-                    case 1 -> workspaceType = WorkspaceType.OPEN_SPACE;
-                    case 2 -> workspaceType = WorkspaceType.PRIVATE;
-                    case 3 -> workspaceType = WorkspaceType.CABIN;
-                    default -> {
-                        System.out.println("No such workspace type! Select from the list above!");
-                        continue;
-                    }
-                }
-                break;
-            } catch (NumberFormatException e) {
-                System.out.println("No such workspace type! Select from the list above!");
-            }
-        }
-
-        adminController.addWorkspace(price, workspaceType);
-        System.out.println("Workspace was successfully added!");
-    }
-
-    private void removeWorkspace() {
+    @GetMapping("/removeWorkspace")
+    public String showRemoveWorkspaceForm(Model model) {
         List<Workspace> workspaces = adminController.listWorkspaces();
         if (workspaces.isEmpty()) {
-            System.out.println("No workspaces!");
-            return;
+            model.addAttribute("message", "No workspaces to remove.");
+        } else {
+            model.addAttribute("workspaces", workspaces);
         }
 
-        System.out.println("List of workspaces: " + workspaces);
-
-        int workspaceId;
-        while (true) {
-            try {
-                workspaceId = Integer.parseInt(scanner.nextLine().trim());
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a numeric workspace ID.");
-                continue;
-            }
-
-            try {
-                adminController.removeWorkspace(workspaceId);
-                System.out.println("Workspace with ID: " + workspaceId + " was successfully removed.");
-                break;
-            } catch (ResourceNotFoundException ex) {
-                System.out.println(ex.getMessage());
-                return;
-            }
-        }
+        return "removeWorkspaceView";
     }
 
-    private void listWorkspaces() {
+    @PostMapping("/removeWorkspace")
+    public String removeWorkspace(@RequestParam("workspaceId") int workspaceId, Model model) {
+        try {
+            adminController.removeWorkspace(workspaceId);
+            model.addAttribute("message", "Workspace removed successfully.");
+        } catch (ResourceNotFoundException e) {
+            model.addAttribute("message", e.getMessage());
+        }
+
+        return "removeWorkspaceView";
+    }
+
+    @GetMapping("/listWorkspaces")
+    public String listWorkspaces(Model model) {
         List<Workspace> workspaces = adminController.listWorkspaces();
         if (workspaces.isEmpty()) {
-            System.out.println("No workspaces to list!");
-            return;
+            model.addAttribute("message", "No workspaces to list.");
+        } else {
+            model.addAttribute("workspaces", workspaces);
         }
-        System.out.println("List of workspaces: " + workspaces);
+
+        return "listWorkspacesView";
     }
 
-    private void listAllReservations() {
-        List<Reservation> allReservations = adminController.listAllReservations();
-        if (allReservations.isEmpty()) {
-            System.out.println("No reservations to list!");
-            return;
+    @GetMapping("/listReservations")
+    public String listReservations(Model model) {
+        List<Reservation> reservations = adminController.listAllReservations();
+        if (reservations.isEmpty()) {
+            model.addAttribute("message", "No reservations to list.");
+        } else {
+            model.addAttribute("reservations", reservations);
         }
-        System.out.println("List of reservations: " + allReservations);
+
+        return "listReservationsView";
     }
 }

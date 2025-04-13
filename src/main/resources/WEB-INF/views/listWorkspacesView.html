@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>List Workspaces</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h2>List of All Workspaces</h2>
+
+<p th:text="${message}"></p>
+
+<ul th:if="${workspaces}">
+    <li th:each="workspace : ${workspaces}"
+        th:text="'ID: ' + ${workspace.id} + ', Type: ' + ${workspace.workspaceType.getWorkspaceType()} + ', Price: $' + ${workspace.price}"></li>
+</ul>
+
+<a th:href="@{/admin}">Back to Admin Dashboard</a>
+</body>
+</html>
