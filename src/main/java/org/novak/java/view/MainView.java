@@ -1,54 +1,15 @@
 package org.novak.java.view;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-@Component
-public class MainView extends View {
+@Controller
+@RequestMapping("/")
+public class MainView {
 
-    @Autowired
-    private AdminView adminMenu;
-    @Autowired
-    private CustomerView customerMenu;
-
-    @Override
-    public void start() {
-        while (true) {
-            printMenu();
-            String input = scanner.nextLine();
-            handleInput(input);
-        }
-    }
-
-    @Override
-    protected void printMenu() {
-        System.out.println("""
-                ==================================
-                Welcome!
-                Please, select a login option:
-                1 - Sign In as Admin
-                2 - Sign In as Customer
-                3 - Exit
-                ==================================
-                """);
-    }
-
-    @Override
-    protected void handleInput(String input) {
-        switch (input) {
-            case "1" -> {
-                System.out.println("You selected Admin login");
-                adminMenu.start();
-            }
-            case "2" -> {
-                System.out.println("You selected Customer login");
-                customerMenu.start();
-            }
-            case "3" -> {
-                System.out.println("Closing the app...");
-                System.exit(0);
-            }
-            default -> System.out.println("Invalid option. Please, try again.");
-        }
+    @GetMapping
+    public String showLoginPage() {
+        return "mainView";
     }
 }

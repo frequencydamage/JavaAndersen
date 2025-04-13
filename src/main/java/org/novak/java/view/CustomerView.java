@@ -5,124 +5,94 @@ import org.novak.java.customException.ResourceNotFoundException;
 import org.novak.java.model.reservation.Reservation;
 import org.novak.java.model.workspace.Workspace;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@Component
-class CustomerView extends View {
+@Controller
+@RequestMapping("/customer")
+public class CustomerView {
 
-    private CustomerController customerController;
+    private final CustomerController customerController;
 
     @Autowired
     public CustomerView(CustomerController customerController) {
         this.customerController = customerController;
     }
 
-    @Override
-    public void start() {
-        while (true) {
-            printMenu();
-            String input = scanner.nextLine().trim();
-            if (input.equals("5")) {
-                return;
-            }
-            handleInput(input);
-        }
+    @GetMapping
+    public String showCustomerView() {
+        return "customerView";
     }
 
-    @Override
-    protected void printMenu() {
-        System.out.println("""
-                ==================================
-                Customer Menu:
-                1 - Make a reservation
-                2 - Cancel a reservation
-                3 - Show available workspaces
-                4 - View my reservations
-                5 - Exit
-                ==================================
-                """);
-    }
-
-    @Override
-    protected void handleInput(String input) {
-        switch (input) {
-            case "1" -> makeReservation();
-            case "2" -> cancelReservation();
-            case "3" -> listAvailableWorkspaces();
-            case "4" -> listMyReservations();
-            default -> System.out.println("No such option");
-        }
-    }
-
-    private void makeReservation() {
+    @GetMapping("/makeReservation")
+    public String showMakeReservationForm(Model model) {
         List<Workspace> availableWorkspaces = customerController.listAvailableWorkspaces();
         if (availableWorkspaces.isEmpty()) {
-            System.out.println("No available workspaces!");
-            return;
+            model.addAttribute("message", "No available workspaces!");
+            return "customerView";
         }
-        System.out.println("List of available workspaces to reserve: " + availableWorkspaces);
+        model.addAttribute("workspaces", availableWorkspaces);
+        return "makeReservationView";
+    }
 
-        int workspaceId;
-        while (true) {
-            try {
-                workspaceId = Integer.parseInt(scanner.nextLine().trim());
-                break;
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a numeric workspace-id.");
-            }
-        }
-
+    @PostMapping("/makeReservation")
+    public String makeReservation(@RequestParam("workspaceId") int workspaceId, Model model) {
         try {
             customerController.makeReservation(workspaceId);
-            System.out.println("Reservation was created successfully!");
+            model.addAttribute("message", "Reservation was created successfully!");
         } catch (ResourceNotFoundException ex) {
-            System.out.println(ex.getMessage());
+            model.addAttribute("message", ex.getMessage());
         }
+        return "customerView";
     }
 
-    private void cancelReservation() {
+    @GetMapping("/cancelReservation")
+    public String showCancelReservationForm(Model model) {
         List<Reservation> myReservations = customerController.listMyReservations();
         if (myReservations.isEmpty()) {
-            System.out.println("No reservations!");
-            return;
+            model.addAttribute("message", "No reservations to cancel!");
+            return "customerView";
         }
-        System.out.println("List of reservations to cancel: " + myReservations);
+        model.addAttribute("reservations", myReservations);
+        return "cancelReservationView";
+    }
 
-        int reservationId;
-        while (true) {
-            try {
-                reservationId = Integer.parseInt(scanner.nextLine().trim());
-                break;
-            } catch (NumberFormatException ex) {
-                System.out.println("Invalid input. Please enter a numeric reservation-id.");
-            }
-        }
-
+    @PostMapping("/cancelReservation")
+    public String cancelReservation(@RequestParam("reservationId") int reservationId, Model model) {
         try {
             customerController.cancelReservation(reservationId);
-            System.out.println("Reservation with id: " + reservationId + " was successfully deleted!");
+            model.addAttribute("message", "Reservation was successfully canceled!");
         } catch (ResourceNotFoundException ex) {
-            System.out.println(ex.getMessage());
+            model.addAttribute("message", ex.getMessage());
         }
+        return "customerView";
     }
 
-    private void listAvailableWorkspaces() {
+    @GetMapping("/listAvailableWorkspaces")
+    public String listAvailableWorkspaces(Model model) {
         List<Workspace> availableWorkspaces = customerController.listAvailableWorkspaces();
-        if(availableWorkspaces.isEmpty()) {
-            System.out.println("No available workspaces!");
-            return;
+        if (availableWorkspaces.isEmpty()) {
+            model.addAttribute("message", "No available workspaces!");
+        } else {
+            model.addAttribute("workspaces", availableWorkspaces);
         }
-        System.out.println("Available workspaces :" + availableWorkspaces);
+        return "listAvailableWorkspacesView";
     }
 
-    private void listMyReservations() {
+    @GetMapping("/listMyReservations")
+    public String listMyReservations(Model model) {
         List<Reservation> myReservations = customerController.listMyReservations();
-        if(myReservations.isEmpty()) {
-            System.out.println("No reservations to list!");
-            return;
+        if (myReservations.isEmpty()) {
+            model.addAttribute("message", "No reservations to list!");
+        } else {
+            model.addAttribute("reservations", myReservations);
         }
-        System.out.println("List of reservations: " + myReservations);
+        return "listMyReservationsView";
     }
 }
