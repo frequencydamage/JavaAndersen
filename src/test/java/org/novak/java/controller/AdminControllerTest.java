@@ -7,7 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.novak.java.BaseTest;
-import org.novak.java.dto.workspaceDto.WorkspaceRequestDTO;
+import org.novak.java.dto.workspaceDto.WorkspaceCreateRequestDTO;
 import org.novak.java.service.ReservationService;
 import org.novak.java.service.WorkspaceService;
 
@@ -32,7 +32,7 @@ public class AdminControllerTest extends BaseTest {
     @DisplayName("Adding workspace should delegate call to WorkspaceService")
     @Test
     void givenValidValues_whenAddWorkspace_thenDelegateToService() {
-        WorkspaceRequestDTO expectedWorkspaceDTO = new WorkspaceRequestDTO(WORKSPACE_PRICE, CABIN);
+        WorkspaceCreateRequestDTO expectedWorkspaceDTO = new WorkspaceCreateRequestDTO(WORKSPACE_PRICE, CABIN);
         adminController.addWorkspace(expectedWorkspaceDTO);
 
         verify(workspaceService).addWorkspace(expectedWorkspaceDTO.getPrice(), expectedWorkspaceDTO.getWorkspaceType());

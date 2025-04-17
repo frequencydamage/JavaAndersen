@@ -2,7 +2,7 @@ package org.novak.java.controller;
 
 import jakarta.validation.Valid;
 import org.novak.java.customException.ResourceNotFoundException;
-import org.novak.java.dto.workspaceDto.WorkspaceRequestDTO;
+import org.novak.java.dto.workspaceDto.WorkspaceCreateRequestDTO;
 import org.novak.java.model.reservation.Reservation;
 import org.novak.java.model.workspace.Workspace;
 import org.novak.java.service.ReservationService;
@@ -28,7 +28,7 @@ public class AdminController {
     }
 
     @PostMapping("/workspaces")
-    public ResponseEntity<String> addWorkspace(@RequestBody @Valid WorkspaceRequestDTO dto) {
+    public ResponseEntity<String> addWorkspace(@RequestBody @Valid WorkspaceCreateRequestDTO dto) {
         workspaceService.addWorkspace(dto.getPrice(), dto.getWorkspaceType());
         return new ResponseEntity<>("Workspace successfully added", HttpStatus.CREATED);
     }

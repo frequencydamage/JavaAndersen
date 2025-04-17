@@ -11,7 +11,7 @@ import org.novak.java.model.workspace.WorkspaceType;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class WorkspaceRequestDTO {
+public class WorkspaceCreateRequestDTO {
 
     @NotNull(message = "Price must not be null")
     @DecimalMin(value = "0.01", message = "Price must be greater than 0")
