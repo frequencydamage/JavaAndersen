@@ -6,6 +6,7 @@ import org.novak.java.model.workspace.WorkspaceRepository;
 import org.novak.java.model.workspace.WorkspaceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -20,6 +21,7 @@ public class WorkspaceService {
         this.workspaceRepository = workspaceRepository;
     }
 
+    @Transactional
     public void addWorkspace(Double price, WorkspaceType workspaceType) {
         workspaceRepository.create(new Workspace(generateUniqueWorkspaceId(), price, workspaceType, true, null));
     }
@@ -28,6 +30,7 @@ public class WorkspaceService {
         return workspaceRepository.getAll();
     }
 
+    @Transactional
     public void removeWorkspace(Integer workspaceId) {
         Optional.ofNullable(workspaceRepository.getById(workspaceId))
                 .orElseThrow(() ->

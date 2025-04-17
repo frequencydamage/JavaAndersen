@@ -7,6 +7,7 @@ import org.novak.java.model.workspace.Workspace;
 import org.novak.java.model.workspace.WorkspaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -23,6 +24,7 @@ public class ReservationService {
         this.reservationRepository = reservationRepository;
     }
 
+    @Transactional
     public void makeReservation(Integer workspaceId) {
         Workspace workspace = Optional.ofNullable(
                 workspaceRepository.getById(workspaceId)).orElseThrow(()
@@ -34,6 +36,7 @@ public class ReservationService {
         workspaceRepository.updateAvailabilityById(workspaceId, false);
     }
 
+    @Transactional
     public void cancelReservation(Integer reservationId) {
         Reservation reservation = Optional.ofNullable(
                         reservationRepository.getById(reservationId))
