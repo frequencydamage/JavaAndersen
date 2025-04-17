@@ -1,5 +1,6 @@
 package org.novak.java.model.workspace;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.novak.java.model.reservation.Reservation;
@@ -31,5 +32,6 @@ public class Workspace {
 
     @Setter
     @OneToOne(mappedBy = "workspace", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonManagedReference
     private Reservation reservation;
 }
