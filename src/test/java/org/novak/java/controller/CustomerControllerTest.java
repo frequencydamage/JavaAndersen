@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.novak.java.BaseTest;
+import org.novak.java.facade.CustomerFacade;
 import org.novak.java.service.ReservationService;
 
 import static org.mockito.Mockito.verify;
@@ -21,12 +22,12 @@ public class CustomerControllerTest extends BaseTest {
     private ReservationService reservationService;
 
     @InjectMocks
-    private CustomerController customerController;
+    private CustomerFacade customerFacade;
 
     @DisplayName("Make reservation should delegate call to ReservationService")
     @Test
     void givenWorkspaceId_whenMakeReservation_thenDelegateToService() {
-        customerController.makeReservation(WORKSPACE_ID);
+        customerFacade.makeReservation(WORKSPACE_ID);
 
         verify(reservationService).makeReservation(WORKSPACE_ID);
     }
@@ -34,23 +35,23 @@ public class CustomerControllerTest extends BaseTest {
     @DisplayName("Canceling reservation should delegate call to ReservationService")
     @Test
     void givenReservationId_whenCancelReservation_thenDelegateToService() {
-        customerController.cancelReservation(RESERVATION_ID);
+        customerFacade.cancelReservation(RESERVATION_ID);
 
         verify(reservationService).cancelReservation(RESERVATION_ID);
     }
 
     @DisplayName("List available workspaces should delegate call to ReservationService")
     @Test
-    void whenListAvailableWorkspaces_thenDelegateToService() {
-        customerController.listAvailableWorkspaces();
+    void whenGetAvailableWorkspaces_thenDelegateToService() {
+        customerFacade.getAvailableWorkspaces();
 
         verify(reservationService).listAvailableWorkspaces();
     }
 
     @DisplayName("List all reservations should delegate call to ReservationService")
     @Test
-    void whenListAllReservations_thenDelegateToService() {
-        customerController.listMyReservations();
+    void whenGetAllReservations_thenDelegateToService() {
+        customerFacade.getMyReservations();
 
         verify(reservationService).listAllReservations();
     }
