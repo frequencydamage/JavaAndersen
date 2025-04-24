@@ -1,7 +1,7 @@
 package org.novak.java.controller.v1;
 
 import jakarta.validation.Valid;
-import org.novak.java.dto.WorkspaceCreateRequestDTO;
+import org.novak.java.dto.workspaceDto.WorkspaceCreateRequestDTO;
 import org.novak.java.facade.AdminFacade;
 import org.novak.java.model.reservation.Reservation;
 import org.novak.java.model.workspace.Workspace;

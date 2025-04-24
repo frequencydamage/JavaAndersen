@@ -7,7 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.novak.java.BaseTest;
-import org.novak.java.dto.WorkspaceCreateRequestDTO;
+import org.novak.java.dto.workspaceDto.WorkspaceCreateRequestDTO;
 import org.novak.java.facade.AdminFacade;
 import org.novak.java.service.ReservationService;
 import org.novak.java.service.WorkspaceService;

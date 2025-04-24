@@ -1,7 +1,7 @@
 package org.novak.java.facade;
 
 import org.novak.java.customException.ResourceNotFoundException;
-import org.novak.java.dto.WorkspaceCreateRequestDTO;
+import org.novak.java.dto.workspaceDto.WorkspaceCreateRequestDTO;
 import org.novak.java.model.reservation.Reservation;
 import org.novak.java.model.workspace.Workspace;
 import org.novak.java.service.ReservationService;
