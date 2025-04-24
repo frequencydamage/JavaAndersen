@@ -1,4 +1,4 @@
-package org.novak.java.controller;
+package org.novak.java.facade;
 
 import org.novak.java.customException.ResourceNotFoundException;
 import org.novak.java.model.reservation.Reservation;
@@ -7,25 +7,22 @@ import org.novak.java.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/customer")
-public class CustomerController {
+@Component
+public class CustomerFacade {
 
     private final ReservationService reservationService;
 
     @Autowired
-    public CustomerController(ReservationService reservationService) {
+    public CustomerFacade(ReservationService reservationService) {
         this.reservationService = reservationService;
     }
 
-    @PostMapping("/workspaces/{workspaceId}/reservations")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<String> makeReservation(@PathVariable("workspaceId") Integer workspaceId) {
-        if (workspaceId <= 0) {
+    public ResponseEntity<String> makeReservation(Integer workspaceId) {
+        if (workspaceId == null || workspaceId <= 0) {
             return new ResponseEntity<>("Invalid workspace ID", HttpStatus.BAD_REQUEST);
         }
 
@@ -37,10 +34,9 @@ public class CustomerController {
         }
     }
 
-    @DeleteMapping("/reservations/{reservationId}")
-    public ResponseEntity<String> cancelReservation(@PathVariable("reservationId") Integer reservationId) {
-        if (reservationId <= 0) {
-            return new ResponseEntity<>("Invalid workspace ID", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<String> cancelReservation(Integer reservationId) {
+        if (reservationId == null || reservationId <= 0) {
+            return new ResponseEntity<>("Invalid reservation ID", HttpStatus.BAD_REQUEST);
         }
 
         try {
@@ -51,15 +47,13 @@ public class CustomerController {
         }
     }
 
-    @GetMapping("/workspaces/available")
-    public ResponseEntity<List<Workspace>> listAvailableWorkspaces() {
-        List<Workspace> availableWorkspaces = reservationService.listAvailableWorkspaces();
-        return new ResponseEntity<>(availableWorkspaces, HttpStatus.OK);
+    public ResponseEntity<List<Workspace>> getAvailableWorkspaces() {
+        List<Workspace> available = reservationService.listAvailableWorkspaces();
+        return new ResponseEntity<>(available, HttpStatus.OK);
     }
 
-    @GetMapping("/myReservations")
-    public ResponseEntity<List<Reservation>> listMyReservations() {
-        List<Reservation> myReservations = reservationService.listAllReservations();
-        return new ResponseEntity<>(myReservations, HttpStatus.OK);
+    public ResponseEntity<List<Reservation>> getMyReservations() {
+        List<Reservation> reservations = reservationService.listAllReservations();
+        return new ResponseEntity<>(reservations, HttpStatus.OK);
     }
 }
