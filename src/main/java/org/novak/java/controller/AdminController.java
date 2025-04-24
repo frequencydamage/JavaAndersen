@@ -1,21 +1,25 @@
 package org.novak.java.controller;
 
-import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
+import org.novak.java.customException.ResourceNotFoundException;
+import org.novak.java.dto.workspaceDto.WorkspaceCreateRequestDTO;
 import org.novak.java.model.reservation.Reservation;
 import org.novak.java.model.workspace.Workspace;
-import org.novak.java.model.workspace.WorkspaceType;
 import org.novak.java.service.ReservationService;
 import org.novak.java.service.WorkspaceService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping("/admin")
 public class AdminController {
 
-    private WorkspaceService workspaceService;
-    private ReservationService reservationService;
+    private final WorkspaceService workspaceService;
+    private final ReservationService reservationService;
 
     @Autowired
     public AdminController(WorkspaceService workspaceService, ReservationService reservationService) {
@@ -23,21 +27,37 @@ public class AdminController {
         this.reservationService = reservationService;
     }
 
-    @Transactional
-    public void addWorkspace(Double price, WorkspaceType workspaceType) {
-        workspaceService.addWorkspace(price, workspaceType);
+    @PostMapping("/workspaces")
+    public ResponseEntity<String> addWorkspace(@RequestBody @Valid WorkspaceCreateRequestDTO dto) {
+        workspaceService.addWorkspace(dto.getPrice(), dto.getWorkspaceType());
+        return new ResponseEntity<>("Workspace successfully added", HttpStatus.CREATED);
     }
 
-    @Transactional
-    public void removeWorkspace(Integer workspaceId) {
-        workspaceService.removeWorkspace(workspaceId);
+    @DeleteMapping("/workspaces/{id}")
+    public ResponseEntity<String> removeWorkspace(@PathVariable("id") Integer workspaceId) {
+        if (workspaceId <= 0) {
+            return new ResponseEntity<>("Invalid workspace ID", HttpStatus.BAD_REQUEST);
+        }
+
+        try {
+            workspaceService.removeWorkspace(workspaceId);
+            return new ResponseEntity<>("Workspace successfully removed", HttpStatus.OK);
+        } catch (ResourceNotFoundException ex) {
+            return new ResponseEntity<>("Workspace with not found", HttpStatus.NOT_FOUND);
+        }
     }
 
-    public List<Workspace> listWorkspaces() {
-        return workspaceService.listAllWorkspaces();
+    @GetMapping("/workspaces")
+    public ResponseEntity<List<Workspace>> listWorkspaces() {
+        List<Workspace> workspaces = workspaceService.listAllWorkspaces();
+
+        return new ResponseEntity<>(workspaces, HttpStatus.OK);
     }
 
-    public List<Reservation> listAllReservations() {
-        return reservationService.listAllReservations();
+    @GetMapping("/reservations")
+    public ResponseEntity<List<Reservation>> listAllReservations() {
+        List<Reservation> reservations = reservationService.listAllReservations();
+
+        return new ResponseEntity<>(reservations, HttpStatus.OK);
     }
 }
