@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.novak.java.BaseTest;
 import org.novak.java.dto.workspaceDto.WorkspaceCreateRequestDTO;
+import org.novak.java.facade.AdminFacade;
 import org.novak.java.service.ReservationService;
 import org.novak.java.service.WorkspaceService;
 
@@ -27,13 +28,13 @@ public class AdminControllerTest extends BaseTest {
     private ReservationService reservationService;
 
     @InjectMocks
-    private AdminController adminController;
+    private AdminFacade adminFacade;
 
     @DisplayName("Adding workspace should delegate call to WorkspaceService")
     @Test
     void givenValidValues_whenAddWorkspace_thenDelegateToService() {
         WorkspaceCreateRequestDTO expectedWorkspaceDTO = new WorkspaceCreateRequestDTO(WORKSPACE_PRICE, CABIN);
-        adminController.addWorkspace(expectedWorkspaceDTO);
+        adminFacade.addWorkspace(expectedWorkspaceDTO);
 
         verify(workspaceService).addWorkspace(expectedWorkspaceDTO.getPrice(), expectedWorkspaceDTO.getWorkspaceType());
     }
@@ -41,23 +42,23 @@ public class AdminControllerTest extends BaseTest {
     @DisplayName("Removing workspace should delegate call to WorkspaceService")
     @Test
     void givenWorkspaceId_whenRemove_thenDelegateToService() {
-        adminController.removeWorkspace(WORKSPACE_ID);
+        adminFacade.removeWorkspace(WORKSPACE_ID);
 
         verify(workspaceService).removeWorkspace(WORKSPACE_ID);
     }
 
     @DisplayName("Listing all workspaces should delegate call to WorkspaceService")
     @Test
-    void givenListAllWorkspaces_whenCalled_thenDelegateToService() {
-        adminController.listWorkspaces();
+    void givenGetAllWorkspaces_whenCalled_thenDelegateToService() {
+        adminFacade.getAllWorkspaces();
 
         verify(workspaceService).listAllWorkspaces();
     }
 
     @DisplayName("Listing all reservations should delegate call to ReservationService")
     @Test
-    void givenListAllReservations_whenCalled_thenDelegateToService() {
-        adminController.listAllReservations();
+    void givenGetAllReservations_whenCalled_thenDelegateToService() {
+        adminFacade.getAllReservations();
 
         verify(reservationService).listAllReservations();
     }

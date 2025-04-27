@@ -1,4 +1,4 @@
-package org.novak.java.springConfig;
+package org.novak.java.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
